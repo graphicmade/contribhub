@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background: #ffffff;
+  @apply tracking-tight;
+
+}
+
+.nice-shadow {
+  @apply shadow-md shadow-gray-300/25 outline outline-1 outline-neutral-200/40
+}
+
+.light-shadow {
+  @apply shadow-lg shadow-gray-300/15 outline outline-1 outline-neutral-200/30
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
