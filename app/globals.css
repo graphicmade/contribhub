@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  background: #ffffff;
+  background: #f6f7ff;
   @apply tracking-tight;
 
 }
