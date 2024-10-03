@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { GitHubLogoIcon, ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
 import { createProject } from '@/services/projects'
@@ -50,24 +50,35 @@ function NewProjectPage() {
   const router = useRouter()
   const [projectUrl, setProjectUrl] = useState('')
   const [projectName, setProjectName] = useState('')
-  const [projectDescription, setProjectDescription] = useState('')
   const [selectedGroup, setSelectedGroup] = useState('')
   const [selectedContributions, setSelectedContributions] = useState<string[]>([])
   const [showAllGroups, setShowAllGroups] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isValidUrl, setIsValidUrl] = useState(false)
 
-
+  useEffect(() => {
+    const githubUrlRegex = /^https:\/\/github\.com\/[a-zA-Z0-9-]+\/[a-zA-Z0-9-_.]+\/?$/
+    setIsValidUrl(githubUrlRegex.test(projectUrl))
+  }, [projectUrl])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!isValidUrl) {
+      toast.error('Please enter a valid GitHub URL')
+      return
+    }
     setIsSubmitting(true)
+
+    // Extract github_full_slug from the URL
+    const urlParts = projectUrl.split('github.com/')[1]
+    const github_full_slug = urlParts ? urlParts.replace(/\/$/, '') : ''
+
     const projectData = {
       name: projectName,
-      description: projectDescription,
       github_url: projectUrl,
       groups: selectedGroup,
       contributions: selectedContributions.join(','),
-      github_full_slug: projectUrl,
+      github_full_slug: github_full_slug,
       paid_bounties: false,
       communities: [],
       issues_count: 0,
@@ -114,32 +125,27 @@ function NewProjectPage() {
 
           <div>
             <label htmlFor='projectUrl' className='block text-sm font-medium text-gray-700 mb-1'>GitHub Project URL</label>
-            <div className='flex'>
-              <span className='inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500'>
-                <GitHubLogoIcon className="h-5 w-5" />
-              </span>
-              <input
-                type='url'
-                id='projectUrl'
-                value={projectUrl}
-                onChange={(e) => setProjectUrl(e.target.value)}
-                className='flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
-                placeholder='https://github.com/username/repo'
-                required
-              />
+            <div className='flex flex-col'>
+              <div className='flex'>
+                <span className='inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500'>
+                  <GitHubLogoIcon className="h-5 w-5" />
+                </span>
+                <input
+                  type='url'
+                  id='projectUrl'
+                  value={projectUrl}
+                  onChange={(e) => setProjectUrl(e.target.value)}
+                  className={`flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border ${
+                    projectUrl && !isValidUrl ? 'border-red-300' : 'border-gray-300'
+                  } focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+                  placeholder='https://github.com/username/repo'
+                  required
+                />
+              </div>
+              {projectUrl && !isValidUrl && (
+                <p className='mt-1 text-sm text-red-600'>Please enter a valid GitHub URL (e.g., https://github.com/username/repo)</p>
+              )}
             </div>
-          </div>
-
-          <div>
-            <label htmlFor='projectDescription' className='block text-sm font-medium text-gray-700 mb-1'>Project Description</label>
-            <textarea
-              id='projectDescription'
-              value={projectDescription}
-              onChange={(e) => setProjectDescription(e.target.value)}
-              rows={3}
-              className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
-              required
-            />
           </div>
 
           <div>
@@ -206,9 +212,10 @@ function NewProjectPage() {
           <div>
             <button
               type='submit'
-              disabled={isSubmitting}
-              className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${isSubmitting ? 'bg-indigo-400 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-                }`}
+              disabled={isSubmitting || !isValidUrl}
+              className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
+                isSubmitting || !isValidUrl ? 'bg-indigo-400 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+              }`}
             >
               {isSubmitting ? 'Submitting...' : 'Submit Project'}
             </button>

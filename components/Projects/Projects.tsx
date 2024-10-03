@@ -190,7 +190,16 @@ function Projects() {
           {projects.map(project => (
             <Link href={`/projects/${project.project_uuid}`} key={project.id} className='bg-white rounded-lg p-4 nice-shadow w-full h-48 flex flex-col'>
               <div className='flex items-center mb-2'>
-                <div className='w-6 h-6 bg-gray-200 rounded-md mr-2 flex-shrink-0'></div>
+                <div className='w-6 h-6 bg-gray-200 rounded-md mr-2 flex-shrink-0'>
+                  {project.icon_image && (
+                    <img
+                      src={project.icon_image}
+                      className='rounded-md'
+                      width={24}
+                      height={24}
+                    />
+                  )}
+                </div>
                 <h3 className='text-lg font-semibold truncate'>{project.name}</h3>
               </div>
               <p className='text-gray-600 mb-2 flex-grow overflow-hidden text-ellipsis text-sm'>

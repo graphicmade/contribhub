@@ -26,7 +26,6 @@ function ContributorTab({ owner, repo }: ContributorTabProps) {
 
   return (
     <div className='bg-white rounded-lg nice-shadow p-6'>
-      <h2 className='text-xl font-semibold mb-4'>Contributor Guidelines</h2>
       <MarkdownPreview
         className='p-5'
         wrapperElement={{

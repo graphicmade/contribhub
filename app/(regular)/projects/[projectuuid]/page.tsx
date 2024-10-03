@@ -74,11 +74,11 @@ function ProjectPage({ params }: { params: { projectuuid: string } }) {
         <div className='flex flex-col w-full pb-20 mt-16 sm:mt-24 md:mt-32'>
             <div className='w-full max-w-7xl mx-auto px-4'>
                 <div className='flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8'>
-                    <div className='flex items-center mb-4 sm:mb-0'>
+                    <div className='flex items-center mb-4 sm:mb-0 '>
                         <img
-                            src={`https://github.com/${owner}.png`}
-                            alt={`${owner}'s avatar`}
-                            className='w-8 h-8 sm:w-10 sm:h-10 rounded-full mr-3 sm:mr-4'
+                            src={repoInfo.owner.avatar_url}
+                            alt={`${repoInfo.owner.login}'s avatar`}
+                            className='w-8 h-8 sm:w-10 sm:h-10 rounded-lg mr-3 sm:mr-4'
                         />
                         <h1 className='text-xl sm:text-2xl md:text-3xl font-bold break-all'>{project.github_full_slug}</h1>
                     </div>
@@ -99,7 +99,7 @@ function ProjectPage({ params }: { params: { projectuuid: string } }) {
                         <h2 className='text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-0'>
                             <TabsContent value="about">About</TabsContent>
                             <TabsContent value="issues">Issues</TabsContent>
-                            <TabsContent value="contributor">Contributors</TabsContent>
+                            <TabsContent value="contributor">Contributors Guidelines</TabsContent>
                         </h2>
                         <TabsList className="flex items-center shadow-inner/50 bg-slate-200/70 rounded-full p-1">
                             <TabsTrigger value="about" className="flex items-center px-4 py-1 text-sm font-medium transition-colors focus:outline-none  rounded-full">
@@ -121,32 +121,7 @@ function ProjectPage({ params }: { params: { projectuuid: string } }) {
                         <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
                             <div className='col-span-1 md:col-span-2'>
                                 <div className='bg-white rounded-lg nice-shadow p-6 mb-8'>
-                                    <h2 className='text-xl font-semibold mb-4'>About</h2>
-                                    <p className='mb-4'>{project.description}</p>
-                                    
-                                    {/* Add group information */}
-                                    <div className='mb-4'>
-                                        <h3 className='text-lg font-semibold mb-2'>Project Group</h3>
-                                        <div className='flex flex-wrap gap-2'>
-                                            {project.groups?.split(',').map((group, index) => (
-                                                <span key={index} className='bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm'>
-                                                    {group.trim()}
-                                                </span>
-                                            ))}
-                                        </div>
-                                    </div>
-
-                                    {/* Add contributions information */}
-                                    <div>
-                                        <h3 className='text-lg font-semibold mb-2'>Looking for Contributions</h3>
-                                        <div className='flex flex-wrap gap-2'>
-                                            {project.contributions?.split(',').map((contribution, index) => (
-                                                <span key={index} className='bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm'>
-                                                    {contribution.trim()}
-                                                </span>
-                                            ))}
-                                        </div>
-                                    </div>
+                                    <p className=''>{repoInfo.description}</p>
                                 </div>
 
                                 <div className='bg-white rounded-lg nice-shadow p-6'>

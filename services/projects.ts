@@ -1,5 +1,6 @@
 "use server";
 import { createClient } from "@/services/utils/supabase/server";
+import { getRepoInfo } from '@/services/utils/github';
 
 // Define the Project type based on the table schema
 export interface Project {
@@ -32,42 +33,61 @@ const supabase = createClient();
 
 // Create a new project
 export async function createProject(
-  project: Omit<Project, "id" | "project_uuid" | "created_at" | "updated_at" | "thumbnail_image" | "icon_image">,
+  project: Omit<Project, "id" | "project_uuid" | "created_at" | "updated_at" | "thumbnail_image" | "icon_image" | "issues_count" | "stars_count" | "description">,
   user_id: string
 ): Promise<Project | null> {
-  const { data: projectData, error: projectError } = await supabase
-    .from("projects")
-    .insert(project)
-    .select()
-    .single();
+  // Extract owner and repo from github_full_slug
+  const [owner, repo] = project.github_full_slug?.split('/') || [];
 
-  if (projectError) {
-    console.error("Error creating project:", projectError);
+  if (!owner || !repo) {
+    console.error("Invalid GitHub URL");
     return null;
   }
 
-  if (projectData) {
-    const userProject: UserProject = {
-      user_id: user_id,
-      project_id: projectData.id as bigint,
-      role_number: 5
+  try {
+    // Get repository information from GitHub API
+    const repoInfo = await getRepoInfo(owner, repo);
+    
+    // Update project with fetched data
+    const updatedProject = {
+      ...project,
+      issues_count: repoInfo.open_issues_count,
+      stars_count: repoInfo.stargazers_count,
+      icon_image: repoInfo.owner.avatar_url,
+      description: repoInfo.description
     };
 
-    const { error: linkError } = await supabase
-      .from("userprojects")
-      .insert(userProject);
+    const { data: projectData, error: projectError } = await supabase.from("projects").insert(updatedProject).select().single();
 
-    if (linkError) {
-      console.error("Error linking user to project:", linkError);
-      // Consider whether to delete the project if linking fails
-      // For now, we'll return the project even if linking fails
+    if (projectError) {
+      console.error("Error creating project:", projectError);
+      return null;
     }
-  }
 
-  return projectData;
+    if (projectData) {
+      const userProject: UserProject = {
+        user_id: user_id,
+        project_id: projectData.id as bigint,
+        role_number: 5,
+      };
+
+      const { error: linkError } = await supabase.from("userprojects").insert(userProject);
+
+      if (linkError) {
+        console.error("Error linking user to project:", linkError);
+        // Consider whether to delete the project if linking fails
+        // For now, we'll return the project even if linking fails
+      }
+    }
+
+    return projectData;
+  } catch (error) {
+    console.error("Error fetching repository information:", error);
+    return null;
+  }
 }
 
-//uid 
+//uid
 export async function getProjectByUuid(uuid: string): Promise<Project | null> {
   const { data, error } = await supabase.from("projects").select("*").eq("project_uuid", uuid).single();
 
@@ -78,7 +98,6 @@ export async function getProjectByUuid(uuid: string): Promise<Project | null> {
 
   return data;
 }
-
 
 // Read a project by its ID
 export async function getProjectById(id: number): Promise<Project | null> {
@@ -160,10 +179,12 @@ export async function getProjectsByGroup(group: string): Promise<Project[]> {
 export async function getProjectsByUserId(user_id: string): Promise<Project[]> {
   const { data, error } = await supabase
     .from("projects")
-    .select(`
+    .select(
+      `
       *,
       userprojects!inner(user_id)
-    `)
+    `
+    )
     .eq("userprojects.user_id", user_id)
     .order("created_at", { ascending: false });
 
@@ -208,15 +229,9 @@ export async function getProjectsByGroupAndContributions(
   return { projects: data || [], totalCount: count || 0 };
 }
 
-
 // check if user has right to edit project
 export async function checkUserRightToEditProject(user_id: string, project_id: number): Promise<boolean> {
-  const { data, error } = await supabase
-    .from("userprojects")
-    .select("*")
-    .eq("user_id", user_id)
-    .eq("project_id", project_id)
-    .single();
+  const { data, error } = await supabase.from("userprojects").select("*").eq("user_id", user_id).eq("project_id", project_id).single();
 
   if (error) {
     console.error("Error checking user right to edit project:", error);
@@ -237,12 +252,7 @@ export async function editProject(user_id: string, project_id: number, updates: 
   }
 
   // If the user has the right, proceed with the update
-  const { data, error } = await supabase
-    .from("projects")
-    .update(updates)
-    .eq("id", project_id)
-    .select()
-    .single();
+  const { data, error } = await supabase.from("projects").update(updates).eq("id", project_id).select().single();
 
   if (error) {
     console.error("Error editing project:", error);
