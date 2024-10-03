@@ -56,7 +56,7 @@ interface ProjectCardProps {
 
 function ProjectCard({ project }: ProjectCardProps) {
   return (
-    <div className='bg-white rounded-lg p-4 nice-shadow w-full h-48 flex flex-col'>
+    <Link href={`/projects/${project.project_uuid}`} className='bg-white rounded-lg p-4 nice-shadow w-full h-48 flex flex-col'>
       <div className='flex items-center mb-2'>
         <div className='w-6 h-6 bg-gray-200 rounded-md mr-2 flex-shrink-0'></div>
         <h3 className='text-lg font-semibold truncate'>{project.name}</h3>
@@ -75,7 +75,7 @@ function ProjectCard({ project }: ProjectCardProps) {
           <span className='text-gray-500'>{project.stars_count}</span>
         </span>
       </div>
-    </div>
+    </Link>
   )
 }
 

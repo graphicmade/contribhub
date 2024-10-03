@@ -5,7 +5,7 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { useRouter } from 'next/navigation';
 import { getProjectByUuid, Project } from '@/services/projects';
-import { getRepoInfo, getRepoIssues, getRepoReadme, getRepoContributors } from '@/services/utils/github';
+import { getRepoInfo, getRepoReadme, getRepoContributors } from '@/services/utils/github';
 import { InfoCircledIcon, GitHubLogoIcon, PersonIcon, StarFilledIcon } from '@radix-ui/react-icons';
 import MarkdownPreview from '@uiw/react-markdown-preview';
 import Link from 'next/link';
@@ -17,10 +17,8 @@ import { BookOpenIcon } from 'lucide-react';
 function ProjectPage({ params }: { params: { projectuuid: string } }) {
     const [project, setProject] = useState<Project | null>(null);
     const [repoInfo, setRepoInfo] = useState<any>(null);
-    const [issues, setIssues] = useState<any[]>([]);
     const [readme, setReadme] = useState<string>('');
     const [contributors, setContributors] = useState<any[]>([]);
-    const [helpWantedIssues, setHelpWantedIssues] = useState<any[]>([]);
     const [owner, setOwner] = useState<string>('');
     const [isReadmeLoading, setIsReadmeLoading] = useState(true);
     const [isContributorsLoading, setIsContributorsLoading] = useState(true);
@@ -40,9 +38,6 @@ function ProjectPage({ params }: { params: { projectuuid: string } }) {
                     const repoInfoData = await getRepoInfo(owner, repo);
                     setRepoInfo(repoInfoData);
 
-                    const issuesData = await getRepoIssues(owner, repo);
-                    setIssues(issuesData);
-
                     const readmeData = await getRepoReadme(owner, repo);
                     setReadme(readmeData);
                     setIsReadmeLoading(false);
@@ -50,11 +45,6 @@ function ProjectPage({ params }: { params: { projectuuid: string } }) {
                     const contributorsData = await getRepoContributors(owner, repo);
                     setContributors(contributorsData);
                     setIsContributorsLoading(false);
-
-                    const helpWantedIssuesData = issuesData.filter((issue: any) =>
-                        issue.labels.some((label: any) => label.name === 'help wanted')
-                    );
-                    setHelpWantedIssues(helpWantedIssuesData);
 
                     setOwner(owner);
                 }
@@ -187,7 +177,7 @@ function ProjectPage({ params }: { params: { projectuuid: string } }) {
                     </TabsContent>
 
                     <TabsContent value="issues">
-                        <IssuesTab issues={issues} helpWantedIssues={helpWantedIssues} />
+                        <IssuesTab owner={owner} repo={project.name || ''} />
                     </TabsContent>
 
                     <TabsContent value="contributor">
