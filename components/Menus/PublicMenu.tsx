@@ -27,10 +27,10 @@ function PublicMenu() {
          </div>
 
          <div className="w-1/4 flex justify-end items-center space-x-3 text-xs">
-           <div className='bg-[#5472f9]/95 text-white space-x-1 backdrop-blur-xl nice-shadow py-1.5 px-3 font-semibold tracking-tight rounded-full flex items-center cursor-pointer'>
+           <Link href="/dashboard/projects/new" className='bg-[#5472f9]/95 text-white space-x-1 backdrop-blur-xl nice-shadow py-1.5 px-3 font-semibold tracking-tight rounded-full flex items-center cursor-pointer'>
               <Plus size={16}  />
              <span>Submit a Project</span>
-            </div>
+            </Link>
 
             {session.authenticated ? (
                <>

@@ -17,7 +17,7 @@ function DashLayout({
                     <NextTopLoader color="#5472f9" initialPosition={0.3} height={4} easing="ease" speed={500} showSpinner={false} />
                     <div className="flex h-screen bg-gradient-to-b from-[#d7defe] bg-[#F8FAFF] from-2% to-transparent to-20%">
                         <Dashmenu />
-                        <main className="flex-1 overflow-auto">
+                        <main className="flex-1 overflow-auto mt-20">
                             {children}
                         </main>
                     </div>

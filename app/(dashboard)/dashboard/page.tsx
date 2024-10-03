@@ -3,7 +3,7 @@ import React from 'react'
 
 function DashboardHomePage() {
   return (
-    <div className='flex py-20'>
+    <div className='flex'>
         <Projects />
     </div>
   )

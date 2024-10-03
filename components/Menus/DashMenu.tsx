@@ -16,7 +16,7 @@ function DashMenu() {
           <Image src={contribhubLogo} alt="logo" width={30}  />
         </Link>
 
-        <div className="flex flex-col items-center space-y-6 bg-white/80 nice-shadow rounded-full py-4 px-3 ml-5">
+        <div className="flex flex-col items-center space-y-6 bg-white/80 nice-shadow rounded-full py-4 px-3 ml-3">
           <TooltipWrapper content="Home">
             <Link href="/dashboard" className="flex flex-col items-center space-y-1">
               <Home size={16} />
@@ -29,26 +29,26 @@ function DashMenu() {
           </TooltipWrapper>
         </div>
 
-        <div className="flex flex-col items-center space-y-4 ml-5 mb-4">
+        <div className="flex flex-col items-center space-y-4 ml-3 mb-4">
           <TooltipWrapper content="Profile">
-            <Link href="/profile" className="w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center">
+            <Link href="/profile" className="w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center">
               <img
                 src={session.user.user_metadata.avatar_url || '/default-avatar.png'}
                 alt="User Avatar"
-                width={32}
-                height={32}
+                width={24}
+                height={24}
                 className="rounded-full nice-shadow "
               />
             </Link>
           </TooltipWrapper>
           <TooltipWrapper content="Settings">
-            <Link href="/settings" className="flex flex-col items-center space-y-1">
-              <Settings size={16} />
+            <Link href="/account" className="flex flex-col items-center space-y-1">
+              <Settings size={13} />
             </Link>
           </TooltipWrapper>
           <TooltipWrapper content="Logout">
             <button className="flex flex-col items-center space-y-1">
-              <LogOut size={16} />
+              <LogOut size={13} />
             </button>
           </TooltipWrapper>
         </div>
