@@ -4,7 +4,7 @@ import { List, Tags, ChevronDown, CircleDot, Group } from 'lucide-react'
 import { StarFilledIcon } from '@radix-ui/react-icons'
 import { contributionOptions, groupOptions } from '@/app/(dashboard)/dashboard/projects/new/page'
 import { getProjectsByGroupAndContributions, Project } from '@/services/projects'
-
+import Link from 'next/link'
 
 function Projects() {
   const [selectedTags, setSelectedTags] = useState<string[]>([])
@@ -188,7 +188,7 @@ function Projects() {
         {/* Project list */}
         <div className='w-full grid grid-cols-1 max-w-7xl sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mt-10'>
           {projects.map(project => (
-            <div key={project.id} className='bg-white rounded-lg p-4 nice-shadow w-full h-48 flex flex-col'>
+            <Link href={`/projects/${project.project_uuid}`} key={project.id} className='bg-white rounded-lg p-4 nice-shadow w-full h-48 flex flex-col'>
               <div className='flex items-center mb-2'>
                 <div className='w-6 h-6 bg-gray-200 rounded-md mr-2 flex-shrink-0'></div>
                 <h3 className='text-lg font-semibold truncate'>{project.name}</h3>
@@ -207,7 +207,7 @@ function Projects() {
                   <span className='text-gray-500'>{project.stars_count}</span>
                 </span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 

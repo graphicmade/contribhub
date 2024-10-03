@@ -6,9 +6,22 @@ import contribhubLogo from '@/public/ch_icon.png'
 import { Home, Search, Settings, LogOut, FolderRoot } from 'lucide-react'
 import * as Tooltip from '@radix-ui/react-tooltip'
 import { useSession } from '../Contexts/SessionContext'
+import { createClient } from '@/services/utils/supabase/client'
+import { useRouter } from 'next/navigation'
 
 function DashMenu() {
   const session = useSession() as any;
+  const router = useRouter();
+
+  const signOut = async () => {
+    const supabase = createClient();
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error('Error signing out:', error);
+    } else {
+      router.push('/login');
+    }
+  };
   return (
     <Tooltip.Provider>
       <div className="w-20 h-screen flex flex-col items-center justify-between py-4 antialiased">
@@ -42,12 +55,12 @@ function DashMenu() {
             </Link>
           </TooltipWrapper>
           <TooltipWrapper content="Settings">
-            <Link href="/account" className="flex flex-col items-center space-y-1">
+            <Link href="/dashboard/account" className="flex flex-col items-center space-y-1">
               <Settings size={13} />
             </Link>
           </TooltipWrapper>
           <TooltipWrapper content="Logout">
-            <button className="flex flex-col items-center space-y-1">
+            <button onClick={signOut} className="flex flex-col items-center space-y-1">
               <LogOut size={13} />
             </button>
           </TooltipWrapper>

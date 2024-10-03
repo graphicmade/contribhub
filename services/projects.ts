@@ -67,6 +67,17 @@ export async function createProject(
   return projectData;
 }
 
+//uid 
+export async function getProjectByUuid(uuid: string): Promise<Project | null> {
+  const { data, error } = await supabase.from("projects").select("*").eq("project_uuid", uuid).single();
+
+  if (error) {
+    console.error("Error fetching project by UUID:", error);
+    return null;
+  }
+
+  return data;
+}
 
 
 // Read a project by its ID
