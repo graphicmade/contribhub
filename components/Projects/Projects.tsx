@@ -2,9 +2,9 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react'
 import { List, Tags, ChevronDown, CircleDot, Group } from 'lucide-react'
 import { StarFilledIcon } from '@radix-ui/react-icons'
-import { contributionOptions, groupOptions } from '@/app/(dashboard)/dashboard/projects/new/page'
-import { getProjectsByGroupAndContributions, Project } from '@/services/projects'
+import {  getProjectsByGroupAndContributions, Project } from '@/services/projects/projects'
 import Link from 'next/link'
+import { contributionOptions, groupOptions } from '@/services/projects/utils'
 
 function Projects() {
   const [selectedTags, setSelectedTags] = useState<string[]>([])

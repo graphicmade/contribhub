@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { useRouter } from 'next/navigation';
-import { getProjectByUuid, Project } from '@/services/projects';
+import { getProjectByUuid, Project } from '@/services/projects/projects';
 import { getRepoInfo, getRepoReadme, getRepoContributors } from '@/services/utils/github';
 import { InfoCircledIcon, GitHubLogoIcon, PersonIcon, StarFilledIcon } from '@radix-ui/react-icons';
 import MarkdownPreview from '@uiw/react-markdown-preview';

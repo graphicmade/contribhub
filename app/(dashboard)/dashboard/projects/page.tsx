@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { getProjectsByUserId, Project } from '@/services/projects'
+import { getProjectsByUserId, Project } from '@/services/projects/projects'
 import { useSession } from '@/components/Contexts/SessionContext'
 import { StarFilledIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
