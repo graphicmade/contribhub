@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
+import PlausibleProvider from 'next-plausible'
 
 const bricolage = Bricolage_Grotesque({ weight: ['200', '300', '400', '500', '600', '700', '800'], subsets: ['latin'] });
 
@@ -16,6 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html className={bricolage.className} lang="en">
+      <head>
+        <PlausibleProvider domain="contribhub.com" />
+      </head>
       <body>{children}</body>
     </html>
   );
