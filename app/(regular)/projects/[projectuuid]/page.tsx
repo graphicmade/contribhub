@@ -5,7 +5,7 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { useRouter } from 'next/navigation';
 import { getProjectByUuid, Project } from '@/services/projects/projects';
-import { getRepoInfo, getRepoReadme, getRepoContributors } from '@/services/utils/github';
+import { getRepoInfo, getRepoReadme, getRepoContributors, getRepoLanguages } from '@/services/utils/github';
 import { InfoCircledIcon, GitHubLogoIcon, PersonIcon, StarFilledIcon } from '@radix-ui/react-icons';
 import MarkdownPreview from '@uiw/react-markdown-preview';
 import Link from 'next/link';
@@ -20,8 +20,11 @@ function ProjectPage({ params }: { params: { projectuuid: string } }) {
     const [readme, setReadme] = useState<string>('');
     const [contributors, setContributors] = useState<any[]>([]);
     const [owner, setOwner] = useState<string>('');
+    const [repo, setRepo] = useState<string>('');
     const [isReadmeLoading, setIsReadmeLoading] = useState(true);
     const [isContributorsLoading, setIsContributorsLoading] = useState(true);
+    const [languages, setLanguages] = useState<string[]>([]);
+    const [isLanguagesLoading, setIsLanguagesLoading] = useState(true);
     const router = useRouter();
 
     useEffect(() => {
@@ -34,7 +37,7 @@ function ProjectPage({ params }: { params: { projectuuid: string } }) {
                 // Extract owner and repo from github_full_slug
                 const [owner, repo] = projectData.github_full_slug?.split('/') || [];
                 setOwner(owner);
-
+                setRepo(repo);
                 if (owner && repo) {
                     fetchRepoInfo(owner, repo);
                     fetchReadme(owner, repo);
@@ -51,6 +54,10 @@ function ProjectPage({ params }: { params: { projectuuid: string } }) {
     const fetchRepoInfo = async (owner: string, repo: string) => {
         const repoInfoData = await getRepoInfo(owner, repo);
         setRepoInfo(repoInfoData);
+        
+        const languagesData = await getRepoLanguages(owner, repo);
+        setLanguages(Object.keys(languagesData));
+        setIsLanguagesLoading(false);
     };
 
     const fetchReadme = async (owner: string, repo: string) => {
@@ -180,6 +187,23 @@ function ProjectPage({ params }: { params: { projectuuid: string } }) {
                                 </div>
 
                                 <div className='bg-white rounded-lg nice-shadow p-6 mb-8'>
+                                    <h2 className='text-xl font-semibold mb-4'>Languages</h2>
+                                    <div className='flex flex-wrap gap-2'>
+                                        {isLanguagesLoading ? (
+                                            Array(3).fill(0).map((_, index) => (
+                                                <Skeleton key={index} width={60} height={24} className='rounded-full' />
+                                            ))
+                                        ) : (
+                                            languages.map((language, index) => (
+                                                <span key={index} className='bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm'>
+                                                    {language}
+                                                </span>
+                                            ))
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div className='bg-white rounded-lg nice-shadow p-6 mb-8'>
                                     <h2 className='text-xl font-semibold mb-4'>Looking for Contributions</h2>
                                     <div className='flex flex-wrap gap-2'>
                                         {project.contributions?.split(',').map((contribution, index) => (
@@ -194,11 +218,11 @@ function ProjectPage({ params }: { params: { projectuuid: string } }) {
                     </TabsContent>
 
                     <TabsContent value="issues">
-                        <IssuesTab owner={owner} repo={project.name || ''} />
+                        <IssuesTab owner={owner} repo={repo} />
                     </TabsContent>
 
                     <TabsContent value="contributor">
-                        <ContributorTab owner={owner} repo={project?.name || ''} />
+                        <ContributorTab owner={owner} repo={repo} />
                     </TabsContent>
                 </Tabs>
             </div>
