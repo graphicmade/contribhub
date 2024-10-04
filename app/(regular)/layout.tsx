@@ -3,6 +3,7 @@ import PublicMenu from '@/components/Menus/PublicMenu'
 import SessionProvider from '@/components/Contexts/SessionContext'
 import { Toaster } from 'react-hot-toast'
 import NextTopLoader from 'nextjs-toploader'
+import Footer from '@/components/Footer'
 function RegularLayout({ children }: { children: React.ReactNode }) {
     return (
         <>
@@ -11,6 +12,7 @@ function RegularLayout({ children }: { children: React.ReactNode }) {
                 <Toaster />
                 <PublicMenu />
                 {children}
+                <Footer />
             </SessionProvider>
 
         </>
