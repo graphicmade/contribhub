@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
-import PlausibleProvider from 'next-plausible'
+import Script from "next/script";
+import { isDevEnvironment } from "@/services/utils";
 
 const bricolage = Bricolage_Grotesque({ weight: ['200', '300', '400', '500', '600', '700', '800'], subsets: ['latin'] });
 
@@ -17,10 +18,10 @@ export default function RootLayout({
 }>) {
   return (
     <html className={bricolage.className} lang="en">
-      <head>
-        <PlausibleProvider domain="contribhub.com" />
-      </head>
-      <body>{children}</body>
+      <body>
+      {isDevEnvironment() ? '' : <Script data-website-id="c8796e86-6ad9-45f8-a02b-c5ee42e0953e" src="/umami/script.js" />}
+        {children}
+      </body>
     </html>
   );
 }
