@@ -4,6 +4,7 @@ import SessionProvider from '@/components/Contexts/SessionContext'
 import { Toaster } from 'react-hot-toast'
 import NextTopLoader from 'nextjs-toploader'
 import Footer from '@/components/Footer'
+import SweaveBadge from '@/components/SweaveBadge'
 function RegularLayout({ children }: { children: React.ReactNode }) {
     return (
         <>
@@ -11,6 +12,7 @@ function RegularLayout({ children }: { children: React.ReactNode }) {
                 <NextTopLoader color="#5472f9" initialPosition={0.3} height={4} easing="ease" speed={500} showSpinner={false} />
                 <Toaster />
                 <PublicMenu />
+                <SweaveBadge/>
                 {children}
                 <Footer />
             </SessionProvider>
