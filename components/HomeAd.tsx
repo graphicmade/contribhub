@@ -18,8 +18,8 @@ function HomeAd() {
           </p>
         </div>
       </div>
-      <Link href="/advertise" className='absolute right-0 -mr-[55px] top-1 transform rotate-90 origin-top-left text-gray-400 hover:underline text-[9px]'>
-        Sponsor
+      <Link href="/advertise" className='absolute right-0 -mr-[64px] top-1 transform rotate-90 origin-top-left text-gray-400 hover:underline text-[11px]'>
+        Advertise
       </Link>
     </div>
   )

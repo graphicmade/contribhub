@@ -5,7 +5,7 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { useRouter } from 'next/navigation';
 import { getProjectByUuid, Project } from '@/services/projects/projects';
-import { getRepoInfo, getRepoReadme, getRepoContributors } from '@/services/utils/github';
+import { getRepoInfo, getRepoReadme, getRepoContributors, getRepoLanguages } from '@/services/utils/github';
 import { InfoCircledIcon, GitHubLogoIcon, PersonIcon, StarFilledIcon } from '@radix-ui/react-icons';
 import MarkdownPreview from '@uiw/react-markdown-preview';
 import Link from 'next/link';
@@ -20,8 +20,11 @@ function ProjectPage({ params }: { params: { projectuuid: string } }) {
     const [readme, setReadme] = useState<string>('');
     const [contributors, setContributors] = useState<any[]>([]);
     const [owner, setOwner] = useState<string>('');
+    const [repo, setRepo] = useState<string>('');
     const [isReadmeLoading, setIsReadmeLoading] = useState(true);
     const [isContributorsLoading, setIsContributorsLoading] = useState(true);
+    const [languages, setLanguages] = useState<string[]>([]);
+    const [isLanguagesLoading, setIsLanguagesLoading] = useState(true);
     const router = useRouter();
 
     useEffect(() => {
@@ -33,20 +36,12 @@ function ProjectPage({ params }: { params: { projectuuid: string } }) {
 
                 // Extract owner and repo from github_full_slug
                 const [owner, repo] = projectData.github_full_slug?.split('/') || [];
-
+                setOwner(owner);
+                setRepo(repo);
                 if (owner && repo) {
-                    const repoInfoData = await getRepoInfo(owner, repo);
-                    setRepoInfo(repoInfoData);
-
-                    const readmeData = await getRepoReadme(owner, repo);
-                    setReadme(readmeData);
-                    setIsReadmeLoading(false);
-
-                    const contributorsData = await getRepoContributors(owner, repo);
-                    setContributors(contributorsData);
-                    setIsContributorsLoading(false);
-
-                    setOwner(owner);
+                    fetchRepoInfo(owner, repo);
+                    fetchReadme(owner, repo);
+                    fetchContributors(owner, repo);
                 }
             } else {
                 router.push('/404');
@@ -56,7 +51,28 @@ function ProjectPage({ params }: { params: { projectuuid: string } }) {
         fetchProjectData();
     }, [params.projectuuid, router]);
 
-    if (!project || !repoInfo) {
+    const fetchRepoInfo = async (owner: string, repo: string) => {
+        const repoInfoData = await getRepoInfo(owner, repo);
+        setRepoInfo(repoInfoData);
+        
+        const languagesData = await getRepoLanguages(owner, repo);
+        setLanguages(Object.keys(languagesData));
+        setIsLanguagesLoading(false);
+    };
+
+    const fetchReadme = async (owner: string, repo: string) => {
+        const readmeData = await getRepoReadme(owner, repo);
+        setReadme(readmeData);
+        setIsReadmeLoading(false);
+    };
+
+    const fetchContributors = async (owner: string, repo: string) => {
+        const contributorsData = await getRepoContributors(owner, repo);
+        setContributors(contributorsData);
+        setIsContributorsLoading(false);
+    };
+
+    if (!project) {
         return <div>Loading...</div>;
     }
 
@@ -65,22 +81,30 @@ function ProjectPage({ params }: { params: { projectuuid: string } }) {
             <div className='w-full max-w-7xl mx-auto px-4'>
                 <div className='flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8'>
                     <div className='flex items-center mb-4 sm:mb-0 '>
-                        <img
-                            src={repoInfo.owner.avatar_url}
-                            alt={`${repoInfo.owner.login}'s avatar`}
-                            className='w-8 h-8 sm:w-10 sm:h-10 rounded-lg mr-3 sm:mr-4'
-                        />
-                        <h1 className='text-xl sm:text-2xl md:text-3xl font-bold break-all'>{project.github_full_slug}</h1>
+                        {repoInfo && (
+                            <>
+                                <img
+                                    src={repoInfo.owner.avatar_url}
+                                    alt={`${repoInfo.owner.login}'s avatar`}
+                                    className='w-8 h-8 sm:w-10 sm:h-10 rounded-lg mr-3 sm:mr-4'
+                                />
+                                <h1 className='text-xl sm:text-2xl md:text-3xl font-bold break-all'>{project.github_full_slug}</h1>
+                            </>
+                        )}
                     </div>
                     <div className='flex items-center space-x-4'>
-                        <span className='flex items-center'>
-                            <StarFilledIcon className="text-yellow-400 mr-1" />
-                            {repoInfo.stargazers_count}
-                        </span>
-                        <Link href={project.github_url || '#'} target="_blank" rel="noopener noreferrer" className='flex items-center bg-black text-white px-3 py-1 rounded-md'>
-                            <GitHubLogoIcon className="mr-2" />
-                            View on GitHub
-                        </Link>
+                        {repoInfo && (
+                            <>
+                                <span className='flex items-center'>
+                                    <StarFilledIcon className="text-yellow-400 mr-1" />
+                                    {repoInfo.stargazers_count}
+                                </span>
+                                <Link href={project.github_url || '#'} target="_blank" rel="noopener noreferrer" className='flex items-center bg-black text-white px-3 py-1 rounded-md'>
+                                    <GitHubLogoIcon className="mr-2" />
+                                    View on GitHub
+                                </Link>
+                            </>
+                        )}
                     </div>
                 </div>
 
@@ -111,7 +135,7 @@ function ProjectPage({ params }: { params: { projectuuid: string } }) {
                         <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
                             <div className='col-span-1 md:col-span-2'>
                                 <div className='bg-white rounded-lg nice-shadow p-6 mb-8'>
-                                    <p className=''>{repoInfo.description}</p>
+                                    <p className=''>{repoInfo?.description}</p>
                                 </div>
 
                                 <div className='bg-white rounded-lg nice-shadow p-6'>
@@ -163,6 +187,23 @@ function ProjectPage({ params }: { params: { projectuuid: string } }) {
                                 </div>
 
                                 <div className='bg-white rounded-lg nice-shadow p-6 mb-8'>
+                                    <h2 className='text-xl font-semibold mb-4'>Languages</h2>
+                                    <div className='flex flex-wrap gap-2'>
+                                        {isLanguagesLoading ? (
+                                            Array(3).fill(0).map((_, index) => (
+                                                <Skeleton key={index} width={60} height={24} className='rounded-full' />
+                                            ))
+                                        ) : (
+                                            languages.map((language, index) => (
+                                                <span key={index} className='bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm'>
+                                                    {language}
+                                                </span>
+                                            ))
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div className='bg-white rounded-lg nice-shadow p-6 mb-8'>
                                     <h2 className='text-xl font-semibold mb-4'>Looking for Contributions</h2>
                                     <div className='flex flex-wrap gap-2'>
                                         {project.contributions?.split(',').map((contribution, index) => (
@@ -177,11 +218,11 @@ function ProjectPage({ params }: { params: { projectuuid: string } }) {
                     </TabsContent>
 
                     <TabsContent value="issues">
-                        <IssuesTab owner={owner} repo={project.name || ''} />
+                        <IssuesTab owner={owner} repo={repo} />
                     </TabsContent>
 
                     <TabsContent value="contributor">
-                        <ContributorTab owner={owner} repo={project?.name || ''} />
+                        <ContributorTab owner={owner} repo={repo} />
                     </TabsContent>
                 </Tabs>
             </div>

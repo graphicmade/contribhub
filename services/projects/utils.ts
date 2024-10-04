@@ -20,7 +20,8 @@ export const groupOptions = [
     { id: 'music', value: 'music', label: 'Music', icon: '🎵' },
     { id: 'nonprofit', value: 'nonprofit', label: 'Non-profit', icon: '🤝' },
     { id: 'marketing', value: 'marketing', label: 'Marketing', icon: '📣' },
-    { id: 'ai', value: 'ai', label: 'AI', icon: '🤖' }
+    { id: 'ai', value: 'ai', label: 'AI', icon: '🤖' },
+    { id: 'dev_tools', value: 'dev_tools', label: 'Dev Tools', icon: '🛠️' }
   ]
   
   export const contributionOptions = [
@@ -32,6 +33,34 @@ export const groupOptions = [
     { id: 'localization', value: 'localization', label: 'Localization', icon: '🌐' },
     { id: 'reviews', value: 'reviews', label: 'Code Reviews', icon: '👀' },
     { id: 'bugs', value: 'bugs', label: 'Bug Finding', icon: '🐛' },
-    { id: 'automating', value: 'automating', label: 'Automating', icon: '🤖' },
+    { id: 'automation', value: 'automation', label: 'Automation CI/CD', icon: '🤖' },
     { id: 'community', value: 'community', label: 'Community Management', icon: '👥' }
   ]
+
+export const languagesOptions = [
+    { id: 'javascript', value: 'javascript', label: 'JavaScript', icon: '🟨' },
+    { id: 'python', value: 'python', label: 'Python', icon: '🐍' },
+    { id: 'java', value: 'java', label: 'Java', icon: '☕' },
+    { id: 'typescript', value: 'typescript', label: 'TypeScript', icon: '🔷' },
+    { id: 'csharp', value: 'csharp', label: 'C#', icon: '♯' },
+    { id: 'php', value: 'php', label: 'PHP', icon: '🐘' },
+    { id: 'c_plus_plus', value: 'c_plus_plus', label: 'C++', icon: '➕' },
+    { id: 'ruby', value: 'ruby', label: 'Ruby', icon: '💎' },
+    { id: 'c', value: 'c', label: 'C', icon: '🔵' },
+    { id: 'go', value: 'go', label: 'Go', icon: '🐹' },
+    { id: 'swift', value: 'swift', label: 'Swift', icon: '🦅' },
+    { id: 'kotlin', value: 'kotlin', label: 'Kotlin', icon: '🤖' },
+    { id: 'rust', value: 'rust', label: 'Rust', icon: '🦀' },
+    { id: 'dart', value: 'dart', label: 'Dart', icon: '🎯' },
+    { id: 'scala', value: 'scala', label: 'Scala', icon: '🔺' },
+    { id: 'shell', value: 'shell', label: 'Shell', icon: '🐚' },
+    { id: 'objective_c', value: 'objective_c', label: 'Objective-C', icon: '🍏' },
+    { id: 'r', value: 'r', label: 'R', icon: '📊' },
+    { id: 'perl', value: 'perl', label: 'Perl', icon: '🐪' },
+    { id: 'haskell', value: 'haskell', label: 'Haskell', icon: 'λ' },
+    { id: 'elixir', value: 'elixir', label: 'Elixir', icon: '💧' },
+    { id: 'clojure', value: 'clojure', label: 'Clojure', icon: '🌿' },
+    { id: 'lua', value: 'lua', label: 'Lua', icon: '🌙' },
+    { id: 'matlab', value: 'matlab', label: 'MATLAB', icon: '📐' },
+    { id: 'groovy', value: 'groovy', label: 'Groovy', icon: '🎵' }
+];

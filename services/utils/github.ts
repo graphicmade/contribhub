@@ -36,6 +36,23 @@ export async function getRepoInfo(owner: string, repo: string) {
   }
 }
 
+// Get information about languages for a specific repo 
+export async function getRepoLanguages(owner: string, repo: string) {
+  try {
+    const { data } = await octokit.repos.listLanguages({
+      owner,
+      repo,
+    });
+    return data;
+  } catch (error) { 
+    console.error('Error fetching repo languages:', error);
+    throw error;
+  }
+}
+
+
+
+
 // Get repository issues with optional label filtering
 export async function getRepoIssues(owner: string, repo: string, labels?: string[]) {
   try {
