@@ -20,7 +20,8 @@ export const groupOptions = [
     { id: 'music', value: 'music', label: 'Music', icon: '🎵' },
     { id: 'nonprofit', value: 'nonprofit', label: 'Non-profit', icon: '🤝' },
     { id: 'marketing', value: 'marketing', label: 'Marketing', icon: '📣' },
-    { id: 'ai', value: 'ai', label: 'AI', icon: '🤖' }
+    { id: 'ai', value: 'ai', label: 'AI', icon: '🤖' },
+    { id: 'dev_tools', value: 'dev_tools', label: 'Dev Tools', icon: '🛠️' }
   ]
   
   export const contributionOptions = [
