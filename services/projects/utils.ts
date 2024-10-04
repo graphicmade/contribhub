@@ -33,7 +33,7 @@ export const groupOptions = [
     { id: 'localization', value: 'localization', label: 'Localization', icon: '🌐' },
     { id: 'reviews', value: 'reviews', label: 'Code Reviews', icon: '👀' },
     { id: 'bugs', value: 'bugs', label: 'Bug Finding', icon: '🐛' },
-    { id: 'automating', value: 'automating', label: 'Automating', icon: '🤖' },
+    { id: 'automation', value: 'automation', label: 'Automation CI/CD', icon: '🤖' },
     { id: 'community', value: 'community', label: 'Community Management', icon: '👥' }
   ]
 
