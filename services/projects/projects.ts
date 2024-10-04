@@ -1,6 +1,6 @@
 "use server";
 import { createClient } from "@/services/utils/supabase/server";
-import { getRepoInfo } from '@/services/utils/github';
+import { getRepoInfo, getRepoLanguages } from '@/services/utils/github';
 
 // Define the Project type based on the table schema
 export interface Project {
@@ -12,6 +12,7 @@ export interface Project {
   github_full_slug: string | null;
   groups: string | null;
   contributions: string | null;
+  languages: string | null;
   paid_bounties: boolean | null;
   issues_count: any | null; // Using 'any' for jsonb type
   stars_count: number | null;
@@ -33,7 +34,7 @@ const supabase = createClient();
 
 // Create a new project
 export async function createProject(
-  project: Omit<Project, "id" | "project_uuid" | "created_at" | "updated_at" | "thumbnail_image" | "icon_image" | "issues_count" | "stars_count" | "description">,
+  project: Omit<Project, "id" | "project_uuid" | "created_at" | "updated_at" | "thumbnail_image" | "icon_image" | "issues_count" | "stars_count" | "description" | "languages">,
   user_id: string
 ): Promise<Project | null> {
   // Extract owner and repo from github_full_slug
@@ -47,6 +48,10 @@ export async function createProject(
   try {
     // Get repository information from GitHub API
     const repoInfo = await getRepoInfo(owner, repo);
+    const repoLanguages = await getRepoLanguages(owner, repo);
+    
+    // Parse and format languages
+    const formattedLanguages = Object.keys(repoLanguages).map(lang => lang.toLowerCase()).join(', ');
     
     // Update project with fetched data
     const updatedProject = {
@@ -54,7 +59,8 @@ export async function createProject(
       issues_count: repoInfo.open_issues_count,
       stars_count: repoInfo.stargazers_count,
       icon_image: repoInfo.owner.avatar_url,
-      description: repoInfo.description
+      description: repoInfo.description,
+      languages: formattedLanguages
     };
 
     const { data: projectData, error: projectError } = await supabase.from("projects").insert(updatedProject).select().single();
@@ -196,14 +202,15 @@ export async function getProjectsByUserId(user_id: string): Promise<Project[]> {
   return data || [];
 }
 
-export async function getProjectsByGroupAndContributions(
+export async function getProjectsByMultipleFilters(
   group: string,
   contributions: string,
   query: string,
   page: number = 1,
   pageSize: number = 10,
   minStars?: number,
-  maxStars?: number
+  maxStars?: number,
+  language?: string
 ): Promise<{ projects: Project[]; totalCount: number }> {
   let queryBuilder = supabase
     .from("projects")
@@ -218,11 +225,14 @@ export async function getProjectsByGroupAndContributions(
   if (maxStars !== undefined) {
     queryBuilder = queryBuilder.lte("stars_count", maxStars === Infinity ? "Infinity" : maxStars);
   }
+  if (language) {
+    queryBuilder = queryBuilder.ilike("languages", `%${language}%`);
+  }
 
   const { data, error, count } = await queryBuilder.range((page - 1) * pageSize, page * pageSize - 1);
 
   if (error) {
-    console.error("Error fetching projects by group, contributions, query, and stars:", error);
+    console.error("Error fetching projects by group, contributions, query, stars, and language:", error);
     return { projects: [], totalCount: 0 };
   }
 
