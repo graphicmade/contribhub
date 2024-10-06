@@ -53,12 +53,15 @@ function NewProjectPage() {
 
     try {
       const newProject = await createProject(projectData, session.user.id)
-      if (newProject) {
+      if (newProject.project) {
         toast.success('Project submitted successfully!', { id: loadingToast })
         // wait 2s
         await new Promise(resolve => setTimeout(resolve, 2000))
         router.push(`/dashboard/projects`)
-      } else {
+      } else if (newProject.error ) {
+        toast.error(newProject.error, { id: loadingToast })
+      }
+      else {
         toast.error('Failed to submit project. Please try again.', { id: loadingToast })
         console.error('Failed to submit project:', newProject)
       }

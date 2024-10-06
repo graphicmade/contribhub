@@ -30,19 +30,32 @@ export interface UserProject {
   created_at?: string;
 }
 
+export interface CreateProjectResponse {
+  project: Project | null;
+  error: string | null;
+}
+
 const supabase = createServiceRoleClient();
 
 // Create a new project
 export async function createProject(
   project: Omit<Project, "id" | "project_uuid" | "created_at" | "updated_at" | "thumbnail_image" | "icon_image" | "issues_count" | "stars_count" | "description" | "languages">,
   user_id: string
-): Promise<Project | null> {
+): Promise<CreateProjectResponse> {
   // Extract owner and repo from github_full_slug
   const [owner, repo] = project.github_full_slug?.split('/') || [];
 
   if (!owner || !repo) {
     console.error("Invalid GitHub URL");
-    return null;
+    return { project: null, error: "Invalid GitHub URL" };
+  }
+
+  // Check if there is already a project with the same github_full_slug
+  const { data: existingProject, error: projectError } = await supabase.from("projects").select("*").eq("github_full_slug", project.github_full_slug).single();
+
+  if (existingProject) {
+    console.error("Project with this GitHub URL already exists");
+    return { project: null, error: "Project with this GitHub URL already exists" };
   }
 
   try {
@@ -67,7 +80,7 @@ export async function createProject(
 
     if (projectError) {
       console.error("Error creating project:", projectError);
-      return null;
+      return { project: null, error: "Error creating project" };
     }
 
     if (projectData) {
@@ -89,7 +102,7 @@ export async function createProject(
     return projectData;
   } catch (error) {
     console.error("Error fetching repository information:", error);
-    return null;
+    return { project: null, error: "Error fetching repository information" };
   }
 }
 
