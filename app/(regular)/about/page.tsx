@@ -1,6 +1,12 @@
 import React from 'react';
 import Image from 'next/image';
 import { SiX, SiGithub } from '@icons-pack/react-simple-icons'
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: 'About Contribhub | Contribhub',
+    description: 'Contribhub is a platform that connects developers with open source projects that need their skills. It is a platform that is designed to make it easier for developers to find projects to contribute to.'
+}
 
 const AboutPage: React.FC = () => {
     return (
@@ -20,6 +26,10 @@ const AboutPage: React.FC = () => {
                         <li className='flex items-center justify-center space-x-2 transform hover:scale-105 hover:rotate-2 transition-all duration-300 bg-rose-600 p-4 rounded-md shadow-lg -rotate-2'>
                             <span className="text-2xl">👀</span>
                             <span className="text-center">Limited visibility of projects that need help in specific areas.</span>
+                        </li>
+                        <li className='flex items-center justify-center space-x-2 transform hover:scale-105 hover:rotate-2 transition-all duration-300 bg-rose-600 p-4 rounded-md shadow-lg rotate-1'>
+                            <span className="text-2xl">😔</span>
+                            <span className="text-center">Only a handful of OSS projects are featured on most directories</span>
                         </li>
                         <li className='flex items-center justify-center space-x-2 transform hover:scale-105 hover:rotate-1 transition-all duration-300 bg-rose-600 p-4 rounded-md shadow-lg -rotate-1'>
                             <span className="text-2xl">📚</span>
@@ -41,19 +51,24 @@ const AboutPage: React.FC = () => {
                         Our platform connects developers with projects that match their skills and interests, making it easier to get involved.
                     </p>
                     <ul className="flex flex-col items-center space-y-4 text-white font-bold list-inside">
-                        <li className='flex items-center justify-center space-x-2 transform hover:scale-105 transition-all duration-300 bg-teal-600 p-4 rounded-full shadow-lg w-fit'>
+                        <li className='flex items-center justify-center space-x-2 transform hover:scale-105 transition-all duration-300 bg-teal-600 p-4 rounded-full shadow-lg w-full max-w-2xl'>
                             <span className="text-2xl">📋</span>
                             <span className="text-center">Curated lists of projects based on various categories and needs.</span>
                         </li>
-                        <li className='flex items-center justify-center space-x-2 transform hover:scale-105 transition-all duration-300 bg-teal-600 p-4 rounded-full shadow-lg w-fit'>
+                        <li className='flex items-center justify-center space-x-2 transform hover:scale-105 transition-all duration-300 bg-teal-600 p-4 rounded-full shadow-lg w-full max-w-2xl'>
+                            <span className="text-2xl">🍀</span>
+                            <span className="text-center">Randomized results for fair opportunities in contributing to open-source projects.</span>
+                        </li>
+                        <li className='flex items-center justify-center space-x-2 transform hover:scale-105 transition-all duration-300 bg-teal-600 p-4 rounded-full shadow-lg w-full max-w-2xl'>
                             <span className="text-2xl">📝</span>
                             <span className="text-center">Detailed project descriptions and contribution guidelines.</span>
                         </li>
-                        <li className='flex items-center justify-center space-x-2 transform hover:scale-105 transition-all duration-300 bg-teal-600 p-4 rounded-full shadow-lg w-fit'>
+
+                        <li className='flex items-center justify-center space-x-2 transform hover:scale-105 transition-all duration-300 bg-teal-600 p-4 rounded-full shadow-lg w-full max-w-2xl'>
                             <span className="text-2xl">🔎</span>
                             <span className="text-center">Search and filter options to find projects that match your skills.</span>
                         </li>
-                        <li className='flex items-center justify-center space-x-2 transform hover:scale-105 transition-all duration-300 bg-teal-600 p-4 rounded-full shadow-lg w-fit'>
+                        <li className='flex items-center justify-center space-x-2 transform hover:scale-105 transition-all duration-300 bg-teal-600 p-4 rounded-full shadow-lg w-full max-w-2xl'>
                             <span className="text-2xl">🤝</span>
                             <span className="text-center">Community support and resources to help you get started.</span>
                         </li>
@@ -98,10 +113,13 @@ const AboutPage: React.FC = () => {
                         </div>
                         <div className="flex-1 space-y-4">
                             <p className="text-lg text-gray-700 leading-relaxed">
-                                Hi there! I'm the creator of ContribHub, passionate about open-source and making it more accessible to everyone. With years of experience in software development, I've seen firsthand the challenges developers face when trying to contribute to open-source projects.
+                                Hi there! I'm the creator of ContribHub and LearnHouse, I'm passionate about Design, Open-source and making software beautiful and more accessible to everyone.
                             </p>
                             <p className="text-lg text-gray-700 leading-relaxed">
-                                My mission is to bridge the gap between eager developers and open-source projects that need their skills. Through Contribhub, I aim to create a vibrant community where collaboration thrives and innovation flourishes.
+                                Developers often struggle to find projects that align with their skills, expectations, and level of expertise and Open Source maintainers struggle to find contributors and reach developers.
+                            </p>
+                            <p className="text-lg text-gray-700 leading-relaxed">
+                                My mission is to bridge the gap between eager developers and open-source projects that need their skills.
                             </p>
                         </div>
                     </div>

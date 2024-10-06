@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import React from 'react'
 import contribhubLogo from '@/public/ch_icon.png'
-import { Home, Search, Settings, LogOut, FolderRoot } from 'lucide-react'
+import { Home, Search, Settings, LogOut, FolderRoot, SquareMousePointer } from 'lucide-react'
 import * as Tooltip from '@radix-ui/react-tooltip'
 import { useSession } from '../Contexts/SessionContext'
 import { createClient } from '@/services/utils/supabase/client'
@@ -38,6 +38,11 @@ function DashMenu() {
           <TooltipWrapper content="My projects">
             <Link href="/dashboard/projects" className="flex flex-col items-center space-y-1">
               <FolderRoot size={16} />
+            </Link>
+          </TooltipWrapper>
+          <TooltipWrapper content="Advertise on ContribHub">
+            <Link href="/dashboard/advertise" className="flex flex-col items-center space-y-1">
+              <SquareMousePointer size={16} />
             </Link>
           </TooltipWrapper>
         </div>

@@ -23,7 +23,7 @@ function Projects({
 }: ProjectsProps) {
   const [selectedTags, setSelectedTags] = useState<string[]>(initialGroups)
   const [selectedTypes, setSelectedTypes] = useState<string[]>(initialContributions)
-  const randomSeed = 12;
+  const randomSeed: number = Math.floor(Math.random() * 1000000); // Generates a random integer
 
   const [isTagsOpen, setIsTagsOpen] = useState(false)
   const [isTypesOpen, setIsTypesOpen] = useState(false)
@@ -115,7 +115,8 @@ function Projects({
       pageSize,
       starFilter ? starFilter[0] : undefined,
       starFilter ? starFilter[1] : undefined,
-      selectedLanguage
+      selectedLanguage,
+      randomSeed.toString()
     )
     setProjects(fetchedProjects)
     setTotalCount(totalCount)

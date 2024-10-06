@@ -1,5 +1,5 @@
 "use server";
-import { createClient } from "@/services/utils/supabase/server";
+import { createServiceRoleClient } from "@/services/utils/supabase/service_role";
 import { getRepoInfo, getRepoLanguages } from '@/services/utils/github';
 
 // Define the Project type based on the table schema
@@ -30,7 +30,7 @@ export interface UserProject {
   created_at?: string;
 }
 
-const supabase = createClient();
+const supabase = createServiceRoleClient();
 
 // Create a new project
 export async function createProject(
@@ -203,6 +203,41 @@ export async function getProjectsByUserId(user_id: string): Promise<Project[]> {
 }
 
 export async function getProjectsByMultipleFilters(
+  group: string,
+  contributions: string,
+  query: string,
+  page: number = 1,
+  pageSize: number = 10,
+  minStars?: number,
+  maxStars?: number,
+  language?: string,
+  seed?: string
+): Promise<{ projects: Project[]; totalCount: number }> {
+  const { data, error } = await supabase
+    .rpc('filter_projects', {
+      p_group: group,
+      p_contributions: contributions,
+      p_query: query,
+      p_page: page,
+      p_page_size: pageSize,
+      p_min_stars: minStars ?? null,
+      p_max_stars: maxStars ?? null,
+      p_language: language ?? null,
+      p_seed: seed ?? null
+    });
+
+  if (error) {
+    console.error("Error fetching projects by multiple filters:", error);
+    return { projects: [], totalCount: 0 };
+  }
+
+  const projects = data.map((item: any) => item.project_data);
+  const totalCount = data[0]?.total_count || 0;
+
+  return { projects, totalCount };
+}
+
+export async function getProjectsByMultipleFiltersSUPABASE(
   group: string,
   contributions: string,
   query: string,
