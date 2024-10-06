@@ -130,7 +130,7 @@ function Projects({
     <div className='flex flex-col w-full pb-20'>
       <div className='flex flex-col w-full justify-center items-center'>
         {showFindBar && (
-          <div className='findbar bg-white light-shadow rounded-full h-auto max-w-4xl p-3 w-full flex flex-wrap items-center gap-2 pr-4 mb-5'>
+          <div className='findbar bg-white light-shadow md:rounded-full rounded-xl h-auto max-w-4xl p-3 w-full flex flex-wrap items-center gap-2 pr-4 mb-5'>
             <input
               type="text"
               placeholder="Search projects..."
