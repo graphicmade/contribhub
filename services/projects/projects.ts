@@ -1,5 +1,5 @@
 "use server";
-import { createClient } from "@/services/utils/supabase/server";
+import { createServiceRoleClient } from "@/services/utils/supabase/service_role";
 import { getRepoInfo, getRepoLanguages } from '@/services/utils/github';
 
 // Define the Project type based on the table schema
@@ -30,7 +30,7 @@ export interface UserProject {
   created_at?: string;
 }
 
-const supabase = createClient();
+const supabase = createServiceRoleClient();
 
 // Create a new project
 export async function createProject(
@@ -237,7 +237,7 @@ export async function getProjectsByMultipleFilters(
   return { projects, totalCount };
 }
 
-export async function getProjectsByMultipleFiltersFIREBASE(
+export async function getProjectsByMultipleFiltersSUPABASE(
   group: string,
   contributions: string,
   query: string,

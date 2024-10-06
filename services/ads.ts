@@ -3,8 +3,6 @@ import { createClient } from "@/services/utils/supabase/server";
 import { v4 as uuidv4 } from 'uuid';
 import { parseISO, isWithinInterval } from 'date-fns';
 
-const supabase = createClient();
-
 interface Ad {
   id?: bigint;
   first_tagline: string;
@@ -17,6 +15,7 @@ interface Ad {
 }
 
 export async function createAd(formData: FormData): Promise<Ad | null> {
+  const supabase = createClient(); // Move inside the function
   try {
     // Extract data from FormData
     const first_tagline = formData.get('first_tagline') as string;
@@ -75,6 +74,7 @@ export async function createAd(formData: FormData): Promise<Ad | null> {
 }
 
 export async function scheduleAd(adId: number, startDate: Date, endDate: Date): Promise<boolean> {
+  const supabase = createClient(); // Move inside the function
   try {
     const { error } = await supabase
       .from('ads')
@@ -96,6 +96,7 @@ export async function scheduleAd(adId: number, startDate: Date, endDate: Date): 
 }
 
 export async function getActiveAds(): Promise<Ad[]> {
+  const supabase = createClient(); // Move inside the function
   const now = new Date();
   
   const { data, error } = await supabase
@@ -124,6 +125,7 @@ export async function getActiveAds(): Promise<Ad[]> {
 }
 
 export async function updateAdPaymentStatus(adId: number, paidFor: boolean): Promise<boolean> {
+  const supabase = createClient(); // Move inside the function
   try {
     const { error } = await supabase
       .from('ads')
@@ -143,6 +145,7 @@ export async function updateAdPaymentStatus(adId: number, paidFor: boolean): Pro
 }
 
 export async function deleteAd(adId: number): Promise<boolean> {
+  const supabase = createClient(); // Move inside the function
   try {
     // First, get the ad to retrieve the image URL
     const { data: ad, error: fetchError } = await supabase
@@ -188,6 +191,7 @@ export async function deleteAd(adId: number): Promise<boolean> {
 }
 
 export async function getAvailableSlots(numberOfWeeks: number): Promise<string[]> {
+  const supabase = createClient(); // Move inside the function
   try {
     // Fetch all ads with non-empty periods
     const { data: ads, error } = await supabase
@@ -224,11 +228,20 @@ export async function getAvailableSlots(numberOfWeeks: number): Promise<string[]
 
       if (isSlotAvailable) {
         availableSlots.push(`${currentDate.toISOString()}|${slotEnd.toISOString()}`);
+        currentDate = slotEnd;
+      } else {
+        // Find the next available start date
+        const nextAvailableDate = bookedPeriods.reduce((nextDate, period) => {
+          if (period.end > currentDate && period.end < nextDate) {
+            return period.end;
+          }
+          return nextDate;
+        }, endDate);
+        
+        currentDate = new Date(nextAvailableDate);
       }
-
-      currentDate = slotEnd;
     }
-    console.log(availableSlots)
+    console.log(availableSlots);
     return availableSlots;
   } catch (error) {
     console.error('Error in getAvailableSlots:', error);
@@ -237,6 +250,7 @@ export async function getAvailableSlots(numberOfWeeks: number): Promise<string[]
 }
 
 export async function getUserAds(userId: string): Promise<Ad[]> {
+    const supabase = createClient(); // Move inside the function
     try {
       const { data, error } = await supabase
         .from('ads')

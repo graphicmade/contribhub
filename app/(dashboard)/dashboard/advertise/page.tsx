@@ -1,12 +1,14 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { useSession } from '@/components/Contexts/SessionContext';
-import { getUserAds, deleteAd } from '@/services/ads';
 import { Calendar, Clock, Plus, CreditCard, Trash2, CheckCircle, Info, Mail, HeartHandshake } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Button } from "@/components/ui/button";
 import Image from 'next/image';
 import { toast } from 'react-hot-toast';
+import { createCheckoutSession } from '@/services/stripe';
+import { deleteAd, getUserAds } from '@/services/ads';
 
 interface Ad {
   id: number;
@@ -21,6 +23,7 @@ interface Ad {
 const UserScheduledAds: React.FC = () => {
   const [ads, setAds] = useState<Ad[]>([]);
   const session = useSession() as any;
+  const router = useRouter()
 
   useEffect(() => {
     const fetchAds = async () => {
@@ -35,6 +38,11 @@ const UserScheduledAds: React.FC = () => {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  };
+
+  const handlePayment = async (adId: number) => {
+    const stripeSession = await createCheckoutSession(adId, session.user.email);
+    router.push(stripeSession.url)
   };
 
   const handleDeleteAd = async (adId: number) => {
@@ -68,7 +76,7 @@ const UserScheduledAds: React.FC = () => {
         <ul className="list-disc list-inside space-y-1">
           <li className="flex items-center">
             <CheckCircle size={16} className="mr-2 text-blue-600" />
-            The standard price for an ad is $100 per week.
+            The standard price for an ad is $150 per week.
           </li>
           <li className="flex items-center">
             <Info size={16} className="mr-2 text-blue-600" />
@@ -118,9 +126,11 @@ const UserScheduledAds: React.FC = () => {
                   </a>
                   <div className='flex items-center space-x-2'>
                   {!ad.paid_for && (
-                    <Button variant="outline" className="flex items-center space-x-2">
+                    <Button 
+                    onClick={() => handlePayment(ad.id)}
+                    variant="outline" className="flex items-center space-x-2">
                       <CreditCard size={16} />
-                      <span className='flex items-center space-x-1'><span>Pay for Ad </span><span className='py-0.5 px-2 bg-gray-200/60 rounded-full text-xs'>$100</span></span>
+                      <span className='flex items-center space-x-1'><span>Pay for Ad </span><span className='py-0.5 px-2 bg-gray-200/60 rounded-full text-xs'>$150</span></span>
                     </Button>
                   )}
                   <Button 
