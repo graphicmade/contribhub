@@ -28,7 +28,7 @@ function HomeAd({ title, description, link, iconBackgroundColor = 'bg-gray-800',
           </p>
         </div>
       </div>
-      <Link href="/dashboard/advertise" className='absolute right-0 -mr-[64px] top-1 transform rotate-90 origin-top-left text-gray-400 hover:underline text-[11px]'>
+      <Link href="/advertise" className='absolute right-0 -mr-[64px] top-1 transform rotate-90 origin-top-left text-gray-400 hover:underline text-[11px]'>
         Advertise
       </Link>
     </div>
