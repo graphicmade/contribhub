@@ -12,7 +12,7 @@ function SignWithGitHubButton({ redirectTo }: { redirectTo: string }) {
     async function signInWithGithub() {
         const { data, error } = await supabase.auth.signInWithOAuth({
             provider: 'github',
-            options: { redirectTo: 'http://localhost:3002' }
+            options: { redirectTo: getUri(redirectTo) }
         })
         if (error) {
             console.error(error)
