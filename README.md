@@ -1,6 +1,6 @@
 <div align="center">
 
-![ContribHub Logo](.github/og-ch.png)
+![ContribHub Logo](app/opengraph-image.png)
 
 [![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
