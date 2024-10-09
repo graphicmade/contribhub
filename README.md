@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
 
-## Getting Started
+![ContribHub Logo](.github/og-ch.png)
 
-First, run the development server:
+[![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.io/)
+[![GitHub](https://img.shields.io/badge/GitHub_API-181717?style=for-the-badge&logo=github&logoColor=white)](https://docs.github.com/en/rest)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+ContribHub is a platform that connects developers with open-source projects that need their skills. It simplifies the process of finding and contributing to open-source software. 🚀
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+</div>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ✨ Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- 📋 Curated lists of open-source projects
+- 🏷️ Project categorization by group and contribution type
+- 🔗 GitHub integration for project information
+- 🔐 User authentication with GitHub
+- 📱 Responsive design for various devices
 
-## Learn More
+## 🛠️ Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- Supabase
+- GitHub API (Octokit)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🚀 Getting Started
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+A complete guide to setting up and running the project locally can be found in our [Contributing Guidelines](CONTRIBUTING.md).
 
-## Deploy on Vercel
+## 📁 Project Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `/app`: Next.js app router and page components
+- `/components`: Reusable React components
+- `/services`: API and utility functions
+- `/public`: Static assets
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for more information.
+
+## 📄 License
+
+This project is licensed under the [AGPL License](LICENSE).
+
+## 📬 Contact
+
+For questions or support, please make an issue in the [GitHub repository](https://github.com/graphicmade/contribhub/issues).
+
+<div align="center">
+
+[![GitHub stars](https://img.shields.io/github/stars/graphicmade/contribhub?style=social)](https://github.com/graphicmade/contribhub/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/graphicmade/contribhub?style=social)](https://github.com/graphicmade/contribhub/network/members)
+[![GitHub issues](https://img.shields.io/github/issues/graphicmade/contribhub?style=social)](https://github.com/graphicmade/contribhub/issues)
+
+</div>

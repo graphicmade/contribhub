@@ -5,6 +5,7 @@ import Sponsors from '@/components/Sponsors'
 import React from 'react'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
+import ContribHubCard from '@/components/Projects/ContribHubProject'
 
 function HomePage() {
   return (
@@ -27,6 +28,13 @@ function HomePage() {
           About ContribHub
           <ArrowRight className='ml-2' size={20} />
         </Link>
+      </div>
+      <div className='w-full max-w-5xl flex flex-col items-center px-4 py-10'>
+        <h2 className='text-3xl font-bold mb-2'>We're OpenSource</h2>
+        <p className='text-xl text-gray-600 text-center mb-8'>
+          ContribHub is an open source project. You can find the source code on <a href="https://github.com/graphicmade/contribhub" target="_blank" className="text-[#5472f9] hover:text-[#4062e8]">GitHub</a>.
+        </p>
+        <ContribHubCard />
       </div>
       <div className='flex flex-col w-full py-5'>
         <h3 className='text-2xl font-bold justify-center mx-auto'>Sponsors</h3>
