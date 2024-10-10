@@ -1,6 +1,6 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react'
-import { List, Tags, ChevronDown, CircleDot, Group, Code } from 'lucide-react'
+import { List, Tags, ChevronDown, CircleDot, Group, Code, GitBranch } from 'lucide-react'
 import { StarFilledIcon } from '@radix-ui/react-icons'
 import { getProjectsByMultipleFilters, Project } from '@/services/projects/projects'
 import Link from 'next/link'
@@ -12,6 +12,7 @@ interface ProjectsProps {
   initialLanguages?: string[]; // Added this line
   initialStars?: [number, number] | null;
   showFindBar?: boolean;
+  initialHacktoberfest?: boolean;
 }
 
 function Projects({
@@ -19,7 +20,8 @@ function Projects({
   initialContributions = [],
   initialLanguages = [], // Added this line
   initialStars = null,
-  showFindBar = true
+  showFindBar = true,
+  initialHacktoberfest = false,
 }: ProjectsProps) {
   const [selectedTags, setSelectedTags] = useState<string[]>(initialGroups)
   const [selectedTypes, setSelectedTypes] = useState<string[]>(initialContributions)
@@ -56,6 +58,8 @@ function Projects({
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>(initialLanguages) // Updated this line
   const [isLanguagesOpen, setIsLanguagesOpen] = useState(false)
   const languagesRef = useRef<HTMLDivElement>(null)
+
+  const [isHacktoberfest, setIsHacktoberfest] = useState<boolean>(initialHacktoberfest)
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -116,7 +120,8 @@ function Projects({
       starFilter ? starFilter[0] : undefined,
       starFilter ? starFilter[1] : undefined,
       selectedLanguage,
-      randomSeed.toString()
+      randomSeed.toString(),
+      isHacktoberfest
     )
     setProjects(fetchedProjects)
     setTotalCount(totalCount)
@@ -124,7 +129,7 @@ function Projects({
 
   useEffect(() => {
     fetchProjects()
-  }, [selectedTags, selectedTypes, selectedLanguages, searchQuery, page, pageSize, starFilter])
+  }, [selectedTags, selectedTypes, selectedLanguages, searchQuery, page, pageSize, starFilter, isHacktoberfest])
 
   return (
     <div className='flex flex-col w-full pb-20'>
@@ -239,6 +244,18 @@ function Projects({
                 ))}
               </div>
             </div>
+
+            {/* Hacktoberfest filter button */}
+            <button
+              onClick={() => setIsHacktoberfest(!isHacktoberfest)}
+              className={`flex items-center nice-shadow rounded-full px-3 py-1.5 whitespace-nowrap w-auto font-medium text-sm ${
+                isHacktoberfest ? 'text-[#183718]' : 'text-gray-500'
+              }`}
+              style={isHacktoberfest ? { background: 'linear-gradient(to top, #38c831, #51da4b)' } : { background: '#ecffea' }}
+            >
+              <GitBranch size={14} className={`mr-1.5 ${isHacktoberfest ? 'text-[#183718]' : 'text-gray-500'}`} />
+              Hacktoberfest
+            </button>
           </div>
         )}
 

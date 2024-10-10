@@ -3,8 +3,10 @@
 import React, { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import Image from 'next/image';
+import hacktoberfestLogo from '@/public/hacktoberfest.svg';
 import { useRouter } from 'next/navigation';
-import { getProjectByUuid, Project } from '@/services/projects/projects';
+import { getProjectByUuid, Project, syncProjectWithGitHub } from '@/services/projects/projects';
 import { getRepoInfo, getRepoReadme, getRepoContributors, getRepoLanguages } from '@/services/utils/github';
 import { InfoCircledIcon, GitHubLogoIcon, PersonIcon, StarFilledIcon } from '@radix-ui/react-icons';
 import MarkdownPreview from '@uiw/react-markdown-preview';
@@ -30,6 +32,7 @@ function ProjectPage({ params }: { params: { projectuuid: string } }) {
     useEffect(() => {
         async function fetchProjectData() {
             const projectData = await getProjectByUuid(params.projectuuid);
+
             if (projectData) {
                 setProject(projectData);
                 console.log(projectData);
@@ -39,9 +42,14 @@ function ProjectPage({ params }: { params: { projectuuid: string } }) {
                 setOwner(owner);
                 setRepo(repo);
                 if (owner && repo) {
-                    fetchRepoInfo(owner, repo);
-                    fetchReadme(owner, repo);
-                    fetchContributors(owner, repo);
+                    await Promise.all([
+                        fetchRepoInfo(owner, repo),
+                        fetchReadme(owner, repo),
+                        fetchContributors(owner, repo)
+                    ]);
+
+                    // Sync project with GitHub as the last operation
+                    await syncProjectWithGitHub(Number(projectData.id));
                 }
             } else {
                 router.push('/404');
@@ -54,7 +62,7 @@ function ProjectPage({ params }: { params: { projectuuid: string } }) {
     const fetchRepoInfo = async (owner: string, repo: string) => {
         const repoInfoData = await getRepoInfo(owner, repo);
         setRepoInfo(repoInfoData);
-        
+
         const languagesData = await getRepoLanguages(owner, repo);
         setLanguages(Object.keys(languagesData));
         setIsLanguagesLoading(false);
@@ -155,6 +163,14 @@ function ProjectPage({ params }: { params: { projectuuid: string } }) {
                             </div>
 
                             <div className='col-span-1'>
+                                {project.hacktoberfest && (
+                                    <div className='bg-white rounded-lg nice-shadow p-6 mb-8' style={{ background: 'linear-gradient(to top, #38c831, #51da4b)' }}>
+                                    <div className="flex flex-col text-[#183718] justify-center items-center space-y-4">
+                                        <Image className='w-32' src={hacktoberfestLogo} alt='Hacktoberfest' />
+                                        <h1 className='text-lg font-bold mb-4 uppercase'>Participating project</h1>
+                                        </div>
+                                    </div>
+                                )}
                                 <div className='bg-white rounded-lg nice-shadow p-6 mb-8'>
                                     <h2 className='text-xl font-semibold mb-4'>Contributors</h2>
                                     <div className='flex flex-wrap'>

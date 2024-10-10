@@ -19,6 +19,7 @@ export interface Project {
   project_uuid?: string;
   icon_image: string | null;
   communities: any | null; // Using 'any' for jsonb type
+  hacktoberfest: boolean | null;
 }
 
 // Add this interface for the user-project linking
@@ -39,7 +40,7 @@ const supabase = createServiceRoleClient();
 
 // Create a new project
 export async function createProject(
-  project: Omit<Project, "id" | "project_uuid" | "created_at" | "updated_at" | "thumbnail_image" | "icon_image" | "issues_count" | "stars_count" | "description" | "languages">,
+  project: Omit<Project, "id" | "project_uuid" | "created_at" | "updated_at" | "thumbnail_image" | "icon_image" | "issues_count" | "stars_count" | "description" | "languages" | "hacktoberfest">,
   user_id: string
 ): Promise<CreateProjectResponse> {
   // Extract owner and repo from github_full_slug
@@ -66,6 +67,9 @@ export async function createProject(
     // Parse and format languages
     const formattedLanguages = Object.keys(repoLanguages).map(lang => lang.toLowerCase()).join(', ');
     
+    // Check if the repository has the Hacktoberfest topic
+    const hasHacktoberfestTopic = repoInfo.topics && repoInfo.topics.includes('hacktoberfest');
+    
     // Update project with fetched data
     const updatedProject = {
       ...project,
@@ -73,7 +77,8 @@ export async function createProject(
       stars_count: repoInfo.stargazers_count,
       icon_image: repoInfo.owner.avatar_url,
       description: repoInfo.description,
-      languages: formattedLanguages
+      languages: formattedLanguages,
+      hacktoberfest: hasHacktoberfestTopic
     };
 
     const { data: projectData, error: projectError } = await supabase.from("projects").insert(updatedProject).select().single();
@@ -99,7 +104,7 @@ export async function createProject(
       }
     }
 
-    return projectData;
+    return { project: projectData, error: null };
   } catch (error) {
     console.error("Error fetching repository information:", error);
     return { project: null, error: "Error fetching repository information" };
@@ -108,8 +113,8 @@ export async function createProject(
 
 //uid
 export async function getProjectByUuid(uuid: string): Promise<Project | null> {
-  const { data, error } = await supabase.from("projects").select("*").eq("project_uuid", uuid).single();
-
+  const { data: data, error: error } = await supabase.from("projects").select("*").eq("project_uuid", uuid).single();
+  
   if (error) {
     console.error("Error fetching project by UUID:", error);
     return null;
@@ -224,10 +229,11 @@ export async function getProjectsByMultipleFilters(
   minStars?: number,
   maxStars?: number,
   language?: string,
-  seed?: string
+  seed?: string,
+  hacktoberfest?: boolean
 ): Promise<{ projects: Project[]; totalCount: number }> {
   const { data, error } = await supabase
-    .rpc('filter_projects', {
+    .rpc('filter_projects_v2', {
       p_group: group,
       p_contributions: contributions,
       p_query: query,
@@ -236,7 +242,8 @@ export async function getProjectsByMultipleFilters(
       p_min_stars: minStars ?? null,
       p_max_stars: maxStars ?? null,
       p_language: language ?? null,
-      p_seed: seed ?? null
+      p_seed: seed ?? null,
+      p_hacktoberfest: hacktoberfest ?? null
     });
 
   if (error) {
@@ -318,4 +325,54 @@ export async function editProject(user_id: string, project_id: number, updates: 
   }
 
   return data;
+}
+
+export async function syncProjectWithGitHub(project_id: number): Promise<Project | null> {
+  // Fetch the current project data
+  const currentProject = await getProjectById(project_id);
+  
+  if (!currentProject || !currentProject.github_full_slug) {
+    console.error("Project not found or missing GitHub information");
+    return null;
+  }
+
+  const [owner, repo] = currentProject.github_full_slug.split('/');
+
+  try {
+    // Fetch updated information from GitHub
+    const repoInfo = await getRepoInfo(owner, repo);
+    const repoLanguages = await getRepoLanguages(owner, repo);
+    
+    // Parse and format languages
+    const formattedLanguages = Object.keys(repoLanguages).map(lang => lang.toLowerCase()).join(', ');
+    
+    // Check if the repository has the Hacktoberfest topic
+    const hasHacktoberfestTopic = repoInfo.topics && repoInfo.topics.includes('hacktoberfest');
+    console.log(repoInfo.topics);
+    console.log(hasHacktoberfestTopic);
+    
+    // Prepare updates
+    const updates: Partial<Project> = {
+      name: repoInfo.name,
+      description: repoInfo.description,
+      icon_image: repoInfo.owner.avatar_url,
+      issues_count: repoInfo.open_issues_count,
+      stars_count: repoInfo.stargazers_count,
+      languages: formattedLanguages,
+      hacktoberfest: hasHacktoberfestTopic
+    };
+
+    // Update the project in the database
+    const updatedProject = await updateProject(project_id, updates);
+
+    if (!updatedProject) {
+      console.error("Failed to update project with synced data");
+      return null;
+    }
+
+    return updatedProject;
+  } catch (error) {
+    console.error("Error syncing project with GitHub:", error);
+    return null;
+  }
 }
