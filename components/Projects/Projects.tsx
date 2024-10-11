@@ -25,7 +25,7 @@ function Projects({
 }: ProjectsProps) {
   const [selectedTags, setSelectedTags] = useState<string[]>(initialGroups)
   const [selectedTypes, setSelectedTypes] = useState<string[]>(initialContributions)
-  const randomSeed: number = Math.floor(Math.random() * 1000000); // Generates a random integer
+  const randomSeed: number = Math.floor(Date.now() / (1000 * 60 * 60)) // Generates a unique number every hour
 
   const [isTagsOpen, setIsTagsOpen] = useState(false)
   const [isTypesOpen, setIsTypesOpen] = useState(false)
