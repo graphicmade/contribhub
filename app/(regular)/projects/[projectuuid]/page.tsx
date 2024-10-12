@@ -15,6 +15,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import IssuesTab from '@/components/Projects/Tabs/IssuesTab';
 import ContributorTab from '@/components/Projects/Tabs/ContributorTab';
 import { BookOpenIcon } from 'lucide-react';
+import ShareButton from '@/components/ShareButton';
 
 function ProjectPage({ params }: { params: { projectuuid: string } }) {
     const [project, setProject] = useState<Project | null>(null);
@@ -107,6 +108,7 @@ function ProjectPage({ params }: { params: { projectuuid: string } }) {
                                     <StarFilledIcon className="text-yellow-400 mr-1" />
                                     {repoInfo.stargazers_count}
                                 </span>
+                                <ShareButton uuid={params.projectuuid} github_full_slug={project.github_full_slug} />
                                 <Link href={project.github_url || '#'} target="_blank" rel="noopener noreferrer" className='flex items-center bg-black text-white px-3 py-1 rounded-md'>
                                     <GitHubLogoIcon className="mr-2" />
                                     View on GitHub
