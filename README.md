@@ -1,3 +1,4 @@
+
 <div align="center">
 
 ![ContribHub Logo](app/opengraph-image.png)
@@ -9,17 +10,17 @@
 [![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.io/)
 [![GitHub](https://img.shields.io/badge/GitHub_API-181717?style=for-the-badge&logo=github&logoColor=white)](https://docs.github.com/en/rest)
 
-ContribHub is a platform that connects developers with open-source projects that need their skills. It simplifies the process of finding and contributing to open-source software. 🚀
+ContribHub is a platform designed to connect developers with open-source projects that need their contributions, making the process of discovering and contributing to open-source software seamless. 🚀
 
 </div>
 
 ## ✨ Features
 
 - 📋 Curated lists of open-source projects
-- 🏷️ Project categorization by group and contribution type
-- 🔗 GitHub integration for project information
-- 🔐 User authentication with GitHub
-- 📱 Responsive design for various devices
+- 🏷️ Categorization by project type and contribution type
+- 🔗 GitHub integration for detailed project information
+- 🔐 User authentication via GitHub
+- 📱 Responsive design for optimal viewing on various devices
 
 ## 🛠️ Tech Stack
 
@@ -28,30 +29,79 @@ ContribHub is a platform that connects developers with open-source projects that
 - TypeScript
 - Tailwind CSS
 - Supabase
-- GitHub API (Octokit)
+- GitHub API (via Octokit)
 
 ## 🚀 Getting Started
 
-A complete guide to setting up and running the project locally can be found in our [Contributing Guidelines](CONTRIBUTING.md).
+### Prerequisites
+
+Make sure you have the following tools installed:
+
+- Node.js
+- npm or yarn
+- Git
+- A Supabase account
+
+### Setting up Locally
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/graphicmade/contribhub.git
+   cd contribhub
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+   or
+   ```bash
+   yarn install
+   ```
+
+3. **Create a `.env` file** by copying the `.env.example` file and adding the necessary API keys and environment variables for Supabase and GitHub:
+   ```bash
+   cp .env.example .env
+   ```
+
+4. **Start the development server**:
+   ```bash
+   npm run dev
+   ```
+   The application should now be running on `http://localhost:3000`.
+
+### Importing the Database Schema to Supabase
+
+To import the schema from `seed.sql` to your local Supabase database, follow these steps:
+
+1. **Open the Supabase dashboard** and navigate to your project.
+2. Go to the **SQL** tab in the dashboard.
+3. **Copy the SQL content** from the `seed.sql` file located in the repository.
+4. **Paste the SQL** into the Supabase SQL editor and execute the query. This will set up the required database schema for ContribHub.
+5. After running the SQL script, your Supabase instance should be configured with the necessary tables and data.
+
+### Additional Configuration
+
+Once the schema is set up, make sure to update any remaining environment variables in your `.env` file to ensure the application connects properly to your Supabase instance.
 
 ## 📁 Project Structure
 
-- `/app`: Next.js app router and page components
-- `/components`: Reusable React components
-- `/services`: API and utility functions
-- `/public`: Static assets
+- `/app`: Contains Next.js routing and page components.
+- `/components`: Reusable UI components built with React.
+- `/services`: Utility functions and API calls.
+- `/public`: Static assets such as images and icons.
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for more information.
+We welcome contributions from the community! Please refer to our [Contributing Guidelines](CONTRIBUTING.md) for details on how to contribute effectively. All contributions, big or small, are valuable to us!
 
 ## 📄 License
 
-This project is licensed under the [AGPL License](LICENSE).
+This project is licensed under the [AGPL License](LICENSE). You are free to use, modify, and distribute it under the terms of this license.
 
 ## 📬 Contact
 
-For questions or support, please make an issue in the [GitHub repository](https://github.com/graphicmade/contribhub/issues).
+If you encounter any issues or have questions, feel free to open an issue on our [GitHub repository](https://github.com/graphicmade/contribhub/issues).
 
 <div align="center">
 
