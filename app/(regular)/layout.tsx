@@ -5,6 +5,7 @@ import { Toaster } from 'react-hot-toast'
 import NextTopLoader from 'nextjs-toploader'
 import Footer from '@/components/Footer'
 import SweaveBadge from '@/components/SweaveBadge'
+import ScrollToTop from '@/components/ScrollToTop'
 function RegularLayout({ children }: { children: React.ReactNode }) {
     return (
         <>
@@ -15,6 +16,7 @@ function RegularLayout({ children }: { children: React.ReactNode }) {
                 <SweaveBadge/>
                 {children}
                 <Footer />
+                <ScrollToTop />
             </SessionProvider>
 
         </>
