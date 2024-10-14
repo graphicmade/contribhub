@@ -4,8 +4,8 @@ import Projects from '@/components/Projects/Projects'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Projects looking for code reviews | Contribhub',
-  description: 'Find the best projects looking for code reviews'
+  title: 'Open Source Projects looking for code reviews | Contribhub',
+  description: 'Find the best open source projects looking for code reviews'
 }
 
 function ReviewsContributionsProjectsPage() {

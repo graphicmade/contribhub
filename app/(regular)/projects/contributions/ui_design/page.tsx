@@ -4,8 +4,8 @@ import Projects from '@/components/Projects/Projects'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Projects with design and UI issues to contribute to | Contribhub',
-  description: 'Find the best projects with design issues to contribute to'
+  title: 'Open Source Projects with design and UI issues to contribute to | Contribhub',
+  description: 'Find the best open source projects with design issues to contribute to'
 }
 
 function DesignContributionsProjectsPage() {
