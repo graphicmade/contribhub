@@ -50,6 +50,8 @@ function IssueList({ issues }: { issues: Issue[] }) {
 function IssuesTab({ owner, repo }: IssuesTabProps) {
   const [issues, setIssues] = useState<Issue[]>([]);
   const [helpWantedIssues, setHelpWantedIssues] = useState<Issue[]>([]);
+  const [goodFirstIssues, setGoodFirstIssues] = useState<Issue[]>([]);
+  const [hacktoberfestIssues, setHacktoberfestIssues] = useState<Issue[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -73,6 +75,16 @@ function IssuesTab({ owner, repo }: IssuesTabProps) {
           issue.labels.some((label: Label) => label.name.toLowerCase() === 'help wanted')
         );
         setHelpWantedIssues(helpWanted);
+
+        const goodFirstIssue = typedIssues.filter((issue: Issue) =>
+          issue.labels.some((label: Label) => label.name.toLowerCase() === 'good first issue')
+        );
+        setGoodFirstIssues(goodFirstIssue);
+
+        const hacktoberfest = typedIssues.filter((issue: Issue) =>
+          issue.labels.some((label: Label) => label.name.toLowerCase() === 'hacktoberfest')
+        );
+        setHacktoberfestIssues(hacktoberfest);
       } catch (error) {
         console.error('Error fetching issues:', error);
       } finally {
@@ -115,6 +127,8 @@ function IssuesTab({ owner, repo }: IssuesTabProps) {
           <h2 className='text-2xl font-bold text-gray-800'>
             <TabsContent value="all">Open Issues</TabsContent>
             <TabsContent value="help-wanted">Help Wanted Issues</TabsContent>
+            <TabsContent value="good-first-issue">Good First Issue</TabsContent>
+            <TabsContent value="hacktoberfest">Hacktoberfest</TabsContent>
           </h2>
           <TabsList className="flex items-center bg-gray-100 rounded-full">
             <TabsTrigger value="all" className="rounded-full px-4 py-1 text-sm font-medium transition-colors focus:outline-none ">
@@ -123,6 +137,12 @@ function IssuesTab({ owner, repo }: IssuesTabProps) {
             <TabsTrigger value="help-wanted" className="rounded-full px-4 py-1 text-sm font-medium transition-colors focus:outline-none ">
               Help Wanted
             </TabsTrigger>
+            <TabsTrigger value="good-first-issue" className="rounded-full px-4 py-1 text-sm font-medium transition-colors focus:outline-none ">
+              Good First Issue
+            </TabsTrigger>
+            <TabsTrigger value="hacktoberfest" className="rounded-full px-4 py-1 text-sm font-medium transition-colors focus:outline-none ">
+              Hacktoberfest
+            </TabsTrigger>
           </TabsList>
         </div>
         <TabsContent value="all">
@@ -130,6 +150,12 @@ function IssuesTab({ owner, repo }: IssuesTabProps) {
         </TabsContent>
         <TabsContent value="help-wanted">
           <IssueList issues={helpWantedIssues} />
+        </TabsContent>
+        <TabsContent value="good-first-issue">
+          <IssueList issues={goodFirstIssues} />
+        </TabsContent>
+        <TabsContent value="hacktoberfest">
+          <IssueList issues={hacktoberfestIssues} />
         </TabsContent>
       </Tabs>
     </div>
