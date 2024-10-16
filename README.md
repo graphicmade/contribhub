@@ -1,3 +1,4 @@
+
 <div align="center">
 
 ![ContribHub Logo](app/opengraph-image.png)
@@ -9,17 +10,17 @@
 [![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.io/)
 [![GitHub](https://img.shields.io/badge/GitHub_API-181717?style=for-the-badge&logo=github&logoColor=white)](https://docs.github.com/en/rest)
 
-ContribHub is a platform that connects developers with open-source projects that need their skills. It simplifies the process of finding and contributing to open-source software. 🚀
+ContribHub is a platform designed to connect developers with open-source projects that need their contributions, making the process of discovering and contributing to open-source software seamless. 🚀
 
 </div>
 
 ## ✨ Features
 
 - 📋 Curated lists of open-source projects
-- 🏷️ Project categorization by group and contribution type
-- 🔗 GitHub integration for project information
-- 🔐 User authentication with GitHub
-- 📱 Responsive design for various devices
+- 🏷️ Categorization by project type and contribution type
+- 🔗 GitHub integration for detailed project information
+- 🔐 User authentication via GitHub
+- 📱 Responsive design for optimal viewing on various devices
 
 ## 🛠️ Tech Stack
 
@@ -28,30 +29,28 @@ ContribHub is a platform that connects developers with open-source projects that
 - TypeScript
 - Tailwind CSS
 - Supabase
-- GitHub API (Octokit)
+- GitHub API (via Octokit)
 
 ## 🚀 Getting Started
 
-A complete guide to setting up and running the project locally can be found in our [Contributing Guidelines](CONTRIBUTING.md).
-
 ## 📁 Project Structure
 
-- `/app`: Next.js app router and page components
-- `/components`: Reusable React components
-- `/services`: API and utility functions
-- `/public`: Static assets
+- `/app`: Contains Next.js routing and page components.
+- `/components`: Reusable UI components built with React.
+- `/services`: Utility functions and API calls.
+- `/public`: Static assets such as images and icons.
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for more information.
+We welcome contributions from the community! Please refer to our [Contributing Guidelines](CONTRIBUTING.md) for details on how to contribute effectively. All contributions, big or small, are valuable to us!
 
 ## 📄 License
 
-This project is licensed under the [AGPL License](LICENSE).
+This project is licensed under the [AGPL License](LICENSE). You are free to use, modify, and distribute it under the terms of this license.
 
 ## 📬 Contact
 
-For questions or support, please make an issue in the [GitHub repository](https://github.com/graphicmade/contribhub/issues).
+If you encounter any issues or have questions, feel free to open an issue on our [GitHub repository](https://github.com/graphicmade/contribhub/issues).
 
 <div align="center">
 
