@@ -135,127 +135,129 @@ function Projects({
     <div className='flex flex-col w-full pb-20'>
       <div className='flex flex-col w-full justify-center items-center'>
         {showFindBar && (
-          <div className='findbar bg-white light-shadow md:rounded-full rounded-xl h-auto max-w-4xl p-3 w-full flex flex-wrap items-center gap-2 pr-4 mb-5'>
+          <div className='findbar bg-white light-shadow md:rounded-full rounded-xl h-auto max-w-4xl p-3 w-full flex flex-col md:flex-row items-center gap-2 pr-4 mb-5'>
             <input
               type="text"
               placeholder="Search projects..."
-              className='rounded-full px-3 py-1.5 border border-gray-100/100 bg-gray-50 flex-grow text-sm'
+              className='rounded-full px-3 py-1.5 border border-gray-100/100 bg-gray-50 w-full md:w-1/2 lg:w-3/5 text-sm mb-2 md:mb-0'
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
 
-            {/* Tags dropdown */}
-            <div className="relative" ref={tagsRef}>
-              <button
-                onClick={() => setIsTagsOpen(!isTagsOpen)}
-                className="flex items-center nice-shadow rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm"
-              >
-                <Group size={14} className="mr-1.5 text-gray-500" />
-                Groups
-                <ChevronDown size={14} className="ml-1.5 text-gray-500" />
-              </button>
-              <div className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out max-h-60 overflow-y-auto ${isTagsOpen ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform -translate-y-2 pointer-events-none'}`}>
-                {groupOptions.map(tag => (
-                  <label key={tag.id} className="flex items-center p-2 hover:bg-gray-100 rounded cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={selectedTags.includes(tag.id)}
-                      onChange={() => toggleTag(tag.id)}
-                      className="mr-2"
-                    />
-                    {tag.icon} {tag.label}
-                  </label>
-                ))}
+            <div className="flex flex-wrap justify-center gap-2 w-full md:w-auto">
+              {/* Tags dropdown */}
+              <div className="relative" ref={tagsRef}>
+                <button
+                  onClick={() => setIsTagsOpen(!isTagsOpen)}
+                  className="flex items-center nice-shadow rounded-full px-4 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm"
+                >
+                  <Group size={14} className="mr-1.5 text-gray-500" />
+                  Groups
+                  <ChevronDown size={14} className="ml-1.5 text-gray-500" />
+                </button>
+                <div className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out max-h-60 overflow-y-auto ${isTagsOpen ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform -translate-y-2 pointer-events-none'}`}>
+                  {groupOptions.map(tag => (
+                    <label key={tag.id} className="flex items-center p-2 hover:bg-gray-100 rounded cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={selectedTags.includes(tag.id)}
+                        onChange={() => toggleTag(tag.id)}
+                        className="mr-2"
+                      />
+                      {tag.icon} {tag.label}
+                    </label>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* Types dropdown */}
-            <div className="relative" ref={typesRef}>
-              <button
-                onClick={() => setIsTypesOpen(!isTypesOpen)}
-                className="flex items-center nice-shadow rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm"
-              >
-                <CircleDot size={14} className="mr-1.5 text-gray-500" />
-                Contributions
-                <ChevronDown size={14} className="ml-1.5 text-gray-500" />
-              </button>
-              <div className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out max-h-60 overflow-y-auto ${isTypesOpen ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform -translate-y-2 pointer-events-none'}`}>
-                {contributionOptions.map(type => (
-                  <label key={type.id} className="flex items-center p-2 hover:bg-gray-100 rounded cursor-pointer ">
-                    <input
-                      type="checkbox"
-                      checked={selectedTypes.includes(type.id)}
-                      onChange={() => toggleType(type.id)}
-                      className="mr-2"
-                    />
-                    {type.icon} {type.label}
-                  </label>
-                ))}
+              {/* Types dropdown */}
+              <div className="relative" ref={typesRef}>
+                <button
+                  onClick={() => setIsTypesOpen(!isTypesOpen)}
+                  className="flex items-center nice-shadow rounded-full px-4 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm"
+                >
+                  <CircleDot size={14} className="mr-1.5 text-gray-500" />
+                  Contributions
+                  <ChevronDown size={14} className="ml-1.5 text-gray-500" />
+                </button>
+                <div className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out max-h-60 overflow-y-auto ${isTypesOpen ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform -translate-y-2 pointer-events-none'}`}>
+                  {contributionOptions.map(type => (
+                    <label key={type.id} className="flex items-center p-2 hover:bg-gray-100 rounded cursor-pointer ">
+                      <input
+                        type="checkbox"
+                        checked={selectedTypes.includes(type.id)}
+                        onChange={() => toggleType(type.id)}
+                        className="mr-2"
+                      />
+                      {type.icon} {type.label}
+                    </label>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* Stars dropdown */}
-            <div className="relative" ref={starsRef}>
-              <button
-                onClick={() => setIsStarsOpen(!isStarsOpen)}
-                className="flex items-center nice-shadow rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm"
-              >
-                <StarFilledIcon className="mr-1.5 text-gray-500" />
-                Stars: {starFilter ? `${starFilter[0]}-${starFilter[1] === Infinity ? '∞' : starFilter[1]}` : 'All'}
-                <ChevronDown size={14} className="ml-1.5 text-gray-500" />
-              </button>
-              <div className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out ${isStarsOpen ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform -translate-y-2 pointer-events-none'}`}>
-                {starOptions.map(option => (
-                  <button
-                    key={option.label}
-                    onClick={() => {
-                      setStarFilter(option.value as [number, number] | null);
-                      setIsStarsOpen(false);
-                    }}
-                    className={`block w-full text-left p-2 hover:bg-gray-100 rounded ${JSON.stringify(starFilter) === JSON.stringify(option.value) ? 'bg-gray-100' : ''}`}
-                  >
-                    {option.label}
-                  </button>
-                ))}
+              {/* Stars dropdown */}
+              <div className="relative" ref={starsRef}>
+                <button
+                  onClick={() => setIsStarsOpen(!isStarsOpen)}
+                  className="flex items-center nice-shadow rounded-full px-4 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm"
+                >
+                  <StarFilledIcon className="mr-1.5 text-gray-500" />
+                  Stars: {starFilter ? `${starFilter[0]}-${starFilter[1] === Infinity ? '∞' : starFilter[1]}` : 'All'}
+                  <ChevronDown size={14} className="ml-1.5 text-gray-500" />
+                </button>
+                <div className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out ${isStarsOpen ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform -translate-y-2 pointer-events-none'}`}>
+                  {starOptions.map(option => (
+                    <button
+                      key={option.label}
+                      onClick={() => {
+                        setStarFilter(option.value as [number, number] | null);
+                        setIsStarsOpen(false);
+                      }}
+                      className={`block w-full text-left p-2 hover:bg-gray-100 rounded ${JSON.stringify(starFilter) === JSON.stringify(option.value) ? 'bg-gray-100' : ''}`}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* Languages dropdown */}
-            <div className="relative" ref={languagesRef}>
-              <button
-                onClick={() => setIsLanguagesOpen(!isLanguagesOpen)}
-                className="flex items-center nice-shadow rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm"
-              >
-                <Code size={14} className="mr-1.5 text-gray-500" />
-                Languages
-                <ChevronDown size={14} className="ml-1.5 text-gray-500" />
-              </button>
-              <div className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out max-h-60 overflow-y-auto ${isLanguagesOpen ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform -translate-y-2 pointer-events-none'}`}>
-                {languagesOptions.map(language => (
-                  <label key={language.id} className="flex items-center p-2 hover:bg-gray-100 rounded cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={selectedLanguages.includes(language.id)}
-                      onChange={() => toggleLanguage(language.id)}
-                      className="mr-2"
-                    />
-                    {language.icon} {language.label}
-                  </label>
-                ))}
+              {/* Languages dropdown */}
+              <div className="relative" ref={languagesRef}>
+                <button
+                  onClick={() => setIsLanguagesOpen(!isLanguagesOpen)}
+                  className="flex items-center nice-shadow rounded-full px-4 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm"
+                >
+                  <Code size={14} className="mr-1.5 text-gray-500" />
+                  Languages
+                  <ChevronDown size={14} className="ml-1.5 text-gray-500" />
+                </button>
+                <div className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out max-h-60 overflow-y-auto ${isLanguagesOpen ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform -translate-y-2 pointer-events-none'}`}>
+                  {languagesOptions.map(language => (
+                    <label key={language.id} className="flex items-center p-2 hover:bg-gray-100 rounded cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={selectedLanguages.includes(language.id)}
+                        onChange={() => toggleLanguage(language.id)}
+                        className="mr-2"
+                      />
+                      {language.icon} {language.label}
+                    </label>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* Hacktoberfest filter button */}
-            <button
-              onClick={() => setIsHacktoberfest(!isHacktoberfest)}
-              className={`flex items-center nice-shadow rounded-full px-3 py-1.5 whitespace-nowrap w-auto font-medium text-sm ${
-                isHacktoberfest ? 'text-[#183718]' : 'text-gray-500'
-              }`}
-              style={isHacktoberfest ? { background: 'linear-gradient(to top, #38c831, #51da4b)' } : { background: '#ecffea' }}
-            >
-              <GitBranch size={14} className={`mr-1.5 ${isHacktoberfest ? 'text-[#183718]' : 'text-gray-500'}`} />
-              Hacktoberfest
-            </button>
+              {/* Hacktoberfest filter button */}
+              <button
+                onClick={() => setIsHacktoberfest(!isHacktoberfest)}
+                className={`flex items-center nice-shadow rounded-full px-4 py-1.5 whitespace-nowrap w-auto font-medium text-sm ${
+                  isHacktoberfest ? 'text-[#183718]' : 'text-gray-500'
+                }`}
+                style={isHacktoberfest ? { background: 'linear-gradient(to top, #38c831, #51da4b)' } : { background: '#ecffea' }}
+              >
+                <GitBranch size={14} className={`mr-1.5 ${isHacktoberfest ? 'text-[#183718]' : 'text-gray-500'}`} />
+                Hacktoberfest
+              </button>
+            </div>
           </div>
         )}
 
