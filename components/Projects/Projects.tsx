@@ -155,6 +155,7 @@ function Projects({
                     isTagsOpen
                       ? {
                           borderColor: "#5472f9",
+                          backgroundColor: "#5472f910",
                         }
                       : {}
                   }
@@ -196,6 +197,7 @@ function Projects({
                     isTypesOpen
                       ? {
                           borderColor: "#5472f9",
+                          backgroundColor: "#5472f910",
                         }
                       : {}
                   }
@@ -237,6 +239,7 @@ function Projects({
                     isStarsOpen
                       ? {
                           borderColor: "#5472f9",
+                          backgroundColor: "#5472f910",
                         }
                       : {}
                   }
@@ -286,6 +289,7 @@ function Projects({
                     isLanguagesOpen
                       ? {
                           borderColor: "#5472f9",
+                          backgroundColor: "#5472f910",
                         }
                       : {}
                   }
@@ -321,7 +325,7 @@ function Projects({
               {/* Hacktoberfest filter button */}
               <button
                 onClick={() => setIsHacktoberfest(!isHacktoberfest)}
-                className={`flex items-center border border-[#38c831] rounded-full px-3 py-1.5 whitespace-nowrap w-auto font-medium text-sm ${
+                className={`flex items-center border border-[#38c831] hover:bg-[#ecffea] rounded-full px-3 py-1.5 whitespace-nowrap w-auto font-medium text-sm ${
                   isHacktoberfest ? "text-[#183718]" : "text-gray-500"
                 }`}
                 style={
@@ -329,7 +333,7 @@ function Projects({
                     ? {
                         background: "linear-gradient(to top, #38c831, #51da4b)",
                       }
-                    : { background: "#ecffea" }
+                    : {}
                 }
               >
                 <GitBranch
