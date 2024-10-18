@@ -132,33 +132,49 @@ function Projects({
   }, [selectedTags, selectedTypes, selectedLanguages, searchQuery, page, pageSize, starFilter, isHacktoberfest])
 
   return (
-    <div className='flex flex-col w-full pb-20'>
-      <div className='flex flex-col w-full justify-center items-center'>
+    <div className="flex flex-col w-full pb-20">
+      <div className="flex flex-col w-full justify-center items-center">
         {showFindBar && (
-          <div className='bg-white light-shadow rounded-3xl h-auto max-w-4xl p-3 w-full flex flex-col items-center gap-2 pr-4 mb-5'>
+          <div className="bg-white light-shadow rounded-3xl h-auto max-w-4xl p-3 w-full flex flex-col items-center gap-2 pr-4 mb-5">
             <input
               type="text"
               placeholder="Search projects..."
-              className='rounded-full px-3 py-1.5 border border-gray-100/100 bg-gray-50 w-full text-sm'
+              className="rounded-full px-3 py-1.5 border border-gray-100/100 bg-gray-50 w-full text-sm"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
 
             {/* Filters */}
-            <div className='flex flex-wrap gap-2'>
+            <div className="flex flex-wrap gap-2">
               {/* Tags dropdown */}
               <div className="relative" ref={tagsRef}>
                 <button
                   onClick={() => setIsTagsOpen(!isTagsOpen)}
-                  className="flex items-center nice-shadow rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm"
+                  className="flex items-center border hover:border-[#5472f9] rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm"
+                  style={
+                    isTagsOpen
+                      ? {
+                          borderColor: "#5472f9",
+                        }
+                      : {}
+                  }
                 >
                   <Group size={14} className="mr-1.5 text-gray-500" />
                   Groups
                   <ChevronDown size={14} className="ml-1.5 text-gray-500" />
                 </button>
-                <div className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out max-h-60 overflow-y-auto ${isTagsOpen ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform -translate-y-2 pointer-events-none'}`}>
-                  {groupOptions.map(tag => (
-                    <label key={tag.id} className="flex items-center p-2 hover:bg-gray-100 rounded cursor-pointer">
+                <div
+                  className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out max-h-60 overflow-y-auto ${
+                    isTagsOpen
+                      ? "opacity-100 transform translate-y-0"
+                      : "opacity-0 transform -translate-y-2 pointer-events-none"
+                  }`}
+                >
+                  {groupOptions.map((tag) => (
+                    <label
+                      key={tag.id}
+                      className="flex items-center p-2 hover:bg-gray-100 rounded cursor-pointer"
+                    >
                       <input
                         type="checkbox"
                         checked={selectedTags.includes(tag.id)}
@@ -175,15 +191,31 @@ function Projects({
               <div className="relative" ref={typesRef}>
                 <button
                   onClick={() => setIsTypesOpen(!isTypesOpen)}
-                  className="flex items-center nice-shadow rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm"
+                  className="flex items-center border hover:border-[#5472f9] rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm"
+                  style={
+                    isTypesOpen
+                      ? {
+                          borderColor: "#5472f9",
+                        }
+                      : {}
+                  }
                 >
                   <CircleDot size={14} className="mr-1.5 text-gray-500" />
                   Contributions
                   <ChevronDown size={14} className="ml-1.5 text-gray-500" />
                 </button>
-                <div className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out max-h-60 overflow-y-auto ${isTypesOpen ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform -translate-y-2 pointer-events-none'}`}>
-                  {contributionOptions.map(type => (
-                    <label key={type.id} className="flex items-center p-2 hover:bg-gray-100 rounded cursor-pointer ">
+                <div
+                  className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out max-h-60 overflow-y-auto ${
+                    isTypesOpen
+                      ? "opacity-100 transform translate-y-0"
+                      : "opacity-0 transform -translate-y-2 pointer-events-none"
+                  }`}
+                >
+                  {contributionOptions.map((type) => (
+                    <label
+                      key={type.id}
+                      className="flex items-center p-2 hover:bg-gray-100 rounded cursor-pointer "
+                    >
                       <input
                         type="checkbox"
                         checked={selectedTypes.includes(type.id)}
@@ -200,21 +232,44 @@ function Projects({
               <div className="relative" ref={starsRef}>
                 <button
                   onClick={() => setIsStarsOpen(!isStarsOpen)}
-                  className="flex items-center nice-shadow rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm"
+                  className="flex items-center border hover:border-[#5472f9] rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm"
+                  style={
+                    isStarsOpen
+                      ? {
+                          borderColor: "#5472f9",
+                        }
+                      : {}
+                  }
                 >
                   <StarFilledIcon className="mr-1.5 text-gray-500" />
-                  Stars: {starFilter ? `${starFilter[0]}-${starFilter[1] === Infinity ? '∞' : starFilter[1]}` : 'All'}
+                  Stars:{" "}
+                  {starFilter
+                    ? `${starFilter[0]}-${
+                        starFilter[1] === Infinity ? "∞" : starFilter[1]
+                      }`
+                    : "All"}
                   <ChevronDown size={14} className="ml-1.5 text-gray-500" />
                 </button>
-                <div className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out ${isStarsOpen ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform -translate-y-2 pointer-events-none'}`}>
-                  {starOptions.map(option => (
+                <div
+                  className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out ${
+                    isStarsOpen
+                      ? "opacity-100 transform translate-y-0"
+                      : "opacity-0 transform -translate-y-2 pointer-events-none"
+                  }`}
+                >
+                  {starOptions.map((option) => (
                     <button
                       key={option.label}
                       onClick={() => {
                         setStarFilter(option.value as [number, number] | null);
                         setIsStarsOpen(false);
                       }}
-                      className={`block w-full text-left p-2 hover:bg-gray-100 rounded ${JSON.stringify(starFilter) === JSON.stringify(option.value) ? 'bg-gray-100' : ''}`}
+                      className={`block w-full text-left p-2 hover:bg-gray-100 rounded ${
+                        JSON.stringify(starFilter) ===
+                        JSON.stringify(option.value)
+                          ? "bg-gray-100"
+                          : ""
+                      }`}
                     >
                       {option.label}
                     </button>
@@ -226,15 +281,31 @@ function Projects({
               <div className="relative" ref={languagesRef}>
                 <button
                   onClick={() => setIsLanguagesOpen(!isLanguagesOpen)}
-                  className="flex items-center nice-shadow rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm"
+                  className="flex items-center border hover:border-[#5472f9] rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm"
+                  style={
+                    isLanguagesOpen
+                      ? {
+                          borderColor: "#5472f9",
+                        }
+                      : {}
+                  }
                 >
                   <Code size={14} className="mr-1.5 text-gray-500" />
                   Languages
                   <ChevronDown size={14} className="ml-1.5 text-gray-500" />
                 </button>
-                <div className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out max-h-60 overflow-y-auto ${isLanguagesOpen ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform -translate-y-2 pointer-events-none'}`}>
-                  {languagesOptions.map(language => (
-                    <label key={language.id} className="flex items-center p-2 hover:bg-gray-100 rounded cursor-pointer">
+                <div
+                  className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out max-h-60 overflow-y-auto ${
+                    isLanguagesOpen
+                      ? "opacity-100 transform translate-y-0"
+                      : "opacity-0 transform -translate-y-2 pointer-events-none"
+                  }`}
+                >
+                  {languagesOptions.map((language) => (
+                    <label
+                      key={language.id}
+                      className="flex items-center p-2 hover:bg-gray-100 rounded cursor-pointer"
+                    >
                       <input
                         type="checkbox"
                         checked={selectedLanguages.includes(language.id)}
@@ -250,48 +321,70 @@ function Projects({
               {/* Hacktoberfest filter button */}
               <button
                 onClick={() => setIsHacktoberfest(!isHacktoberfest)}
-                className={`flex items-center nice-shadow rounded-full px-3 py-1.5 whitespace-nowrap w-auto font-medium text-sm ${
-                  isHacktoberfest ? 'text-[#183718]' : 'text-gray-500'
+                className={`flex items-center border border-[#38c831] rounded-full px-3 py-1.5 whitespace-nowrap w-auto font-medium text-sm ${
+                  isHacktoberfest ? "text-[#183718]" : "text-gray-500"
                 }`}
-                style={isHacktoberfest ? { background: 'linear-gradient(to top, #38c831, #51da4b)' } : { background: '#ecffea' }}
+                style={
+                  isHacktoberfest
+                    ? {
+                        background: "linear-gradient(to top, #38c831, #51da4b)",
+                      }
+                    : { background: "#ecffea" }
+                }
               >
-                <GitBranch size={14} className={`mr-1.5 ${isHacktoberfest ? 'text-[#183718]' : 'text-gray-500'}`} />
+                <GitBranch
+                  size={14}
+                  className={`mr-1.5 ${
+                    isHacktoberfest ? "text-[#183718]" : "text-gray-500"
+                  }`}
+                />
                 Hacktoberfest
               </button>
             </div>
           </div>
         )}
-        
 
         {/* Project list */}
-        <div className='w-full grid grid-cols-1 max-w-7xl sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mt-10'>
-          {projects.map(project => (
-            <Link href={`/projects/${project.project_uuid}`} key={project.id} className='bg-white rounded-lg p-4 nice-shadow w-full h-48 flex flex-col'>
-              <div className='flex items-center mb-2'>
-                <div className='w-6 h-6 bg-gray-200 rounded-md mr-2 flex-shrink-0'>
+        <div className="w-full grid grid-cols-1 max-w-7xl sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mt-10">
+          {projects.map((project) => (
+            <Link
+              href={`/projects/${project.project_uuid}`}
+              key={project.id}
+              className="bg-white rounded-lg p-4 nice-shadow w-full h-48 flex flex-col"
+            >
+              <div className="flex items-center mb-2">
+                <div className="w-6 h-6 bg-gray-200 rounded-md mr-2 flex-shrink-0">
                   {project.icon_image && (
                     <img
                       src={project.icon_image}
-                      className='rounded-md'
+                      className="rounded-md"
                       width={24}
                       height={24}
                     />
                   )}
                 </div>
-                <h3 className='text-lg font-semibold truncate'>{project.name}</h3>
+                <h3 className="text-lg font-semibold truncate">
+                  {project.name}
+                </h3>
               </div>
-              <p className='text-gray-600 mb-2 flex-grow overflow-hidden text-ellipsis text-sm'>
+              <p className="text-gray-600 mb-2 flex-grow overflow-hidden text-ellipsis text-sm">
                 {project.description}
               </p>
-              <div className='flex flex-wrap gap-1 items-center'>
-                {project.groups?.split(',').slice(0, 2).map(group => (
-                  <span key={group} className='bg-gray-100 text-gray-800 px-1.5 py-0.5 rounded-full text-xs'>
-                    {group}
-                  </span>
-                ))}
-                <span className='ml-auto text-gray-500 text-sm flex items-center space-x-1'>
+              <div className="flex flex-wrap gap-1 items-center">
+                {project.groups
+                  ?.split(",")
+                  .slice(0, 2)
+                  .map((group) => (
+                    <span
+                      key={group}
+                      className="bg-gray-100 text-gray-800 px-1.5 py-0.5 rounded-full text-xs"
+                    >
+                      {group}
+                    </span>
+                  ))}
+                <span className="ml-auto text-gray-500 text-sm flex items-center space-x-1">
                   <StarFilledIcon className="text-gray-500" />
-                  <span className='text-gray-500'>{project.stars_count}</span>
+                  <span className="text-gray-500">{project.stars_count}</span>
                 </span>
               </div>
             </Link>
@@ -301,7 +394,7 @@ function Projects({
         {/* Pagination */}
         <div className="mt-8 flex justify-center items-center space-x-4">
           <button
-            onClick={() => setPage(prev => Math.max(1, prev - 1))}
+            onClick={() => setPage((prev) => Math.max(1, prev - 1))}
             disabled={page === 1}
             className="px-4 py-2 bg-white border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
           >
@@ -311,7 +404,7 @@ function Projects({
             Page {page} of {Math.ceil(totalCount / pageSize)}
           </span>
           <button
-            onClick={() => setPage(prev => prev + 1)}
+            onClick={() => setPage((prev) => prev + 1)}
             disabled={page >= Math.ceil(totalCount / pageSize)}
             className="px-4 py-2 bg-white border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
           >
@@ -320,7 +413,7 @@ function Projects({
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default Projects
