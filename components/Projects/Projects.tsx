@@ -23,11 +23,11 @@ function Projects({
   showFindBar = true,
   initialHacktoberfest = false,
 }: ProjectsProps) {
-  const [selectedTags, setSelectedTags] = useState<string[]>(initialGroups)
+  const [selectedGroups, setSelectedGroups] = useState<string[]>(initialGroups)
   const [selectedTypes, setSelectedTypes] = useState<string[]>(initialContributions)
   const randomSeed: number = Math.floor(Date.now() / (1000 * 60 * 60)) // Generates a unique number every hour
 
-  const [isTagsOpen, setIsTagsOpen] = useState(false)
+  const [isGroupsOpen, setIsGroupsOpen] = useState(false)
   const [isTypesOpen, setIsTypesOpen] = useState(false)
 
   const tagsRef = useRef<HTMLDivElement>(null);
@@ -64,7 +64,7 @@ function Projects({
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (tagsRef.current && !tagsRef.current.contains(event.target as Node)) {
-        setIsTagsOpen(false);
+        setIsGroupsOpen(false);
       }
       if (typesRef.current && !typesRef.current.contains(event.target as Node)) {
         setIsTypesOpen(false);
@@ -84,7 +84,7 @@ function Projects({
   }, []);
 
   const toggleTag = (tagId: string) => {
-    setSelectedTags(prev =>
+    setSelectedGroups(prev =>
       prev.includes(tagId) ? prev.filter(id => id !== tagId) : [...prev, tagId]
     )
   }
@@ -102,13 +102,13 @@ function Projects({
   }
 
   const filteredProjects = projects.filter(project => {
-    const matchesTags = selectedTags.length === 0 || project.groups?.split(',').some(tag => selectedTags.includes(tag.toLowerCase())) || false;
+    const matchesGroups = selectedGroups.length === 0 || project.groups?.split(',').some(tag => selectedGroups.includes(tag.toLowerCase())) || false;
     const matchesStars = starFilter === null || ((project.stars_count ?? 0) >= starFilter[0] && (project.stars_count ?? 0) <= starFilter[1]);
-    return matchesTags && (starFilter === null || matchesStars);
+    return matchesGroups && (starFilter === null || matchesStars);
   });
 
   const fetchProjects = async () => {
-    const selectedGroup = selectedTags.join(',')
+    const selectedGroup = selectedGroups.join(',')
     const selectedContributions = selectedTypes.join(',')
     const selectedLanguage = selectedLanguages.join(',')
     const { projects: fetchedProjects, totalCount } = await getProjectsByMultipleFilters(
@@ -129,7 +129,7 @@ function Projects({
 
   useEffect(() => {
     fetchProjects()
-  }, [selectedTags, selectedTypes, selectedLanguages, searchQuery, page, pageSize, starFilter, isHacktoberfest])
+  }, [selectedGroups, selectedTypes, selectedLanguages, searchQuery, page, pageSize, starFilter, isHacktoberfest])
 
   return (
     <div className="flex flex-col w-full pb-20">
@@ -146,13 +146,13 @@ function Projects({
 
             {/* Filters */}
             <div className="flex flex-wrap gap-2">
-              {/* Tags dropdown */}
+              {/* Groups dropdown */}
               <div className="relative" ref={tagsRef}>
                 <button
-                  onClick={() => setIsTagsOpen(!isTagsOpen)}
+                  onClick={() => setIsGroupsOpen(!isGroupsOpen)}
                   className="flex items-center border hover:border-[#5472f9] hover:text-gray-600 rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 text-gray-500 font-medium text-sm"
                   style={
-                    isTagsOpen
+                    isGroupsOpen
                       ? {
                           borderColor: "#5472f9",
                           backgroundColor: "#5472f910",
@@ -166,8 +166,8 @@ function Projects({
                   <ChevronDown size={14} className="ml-1.5 text-gray-500" />
                 </button>
                 <div
-                  className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out max-h-60 overflow-y-auto ${
-                    isTagsOpen
+                  className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out max-h-60 overflow-y-auto min-w-max ${
+                    isGroupsOpen
                       ? "opacity-100 transform translate-y-0"
                       : "opacity-0 transform -translate-y-2 pointer-events-none"
                   }`}
@@ -179,7 +179,7 @@ function Projects({
                     >
                       <input
                         type="checkbox"
-                        checked={selectedTags.includes(tag.id)}
+                        checked={selectedGroups.includes(tag.id)}
                         onChange={() => toggleTag(tag.id)}
                         className="mr-2"
                       />
@@ -209,7 +209,7 @@ function Projects({
                   <ChevronDown size={14} className="ml-1.5 text-gray-500" />
                 </button>
                 <div
-                  className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out max-h-60 overflow-y-auto ${
+                  className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out max-h-60 overflow-y-auto min-w-max ${
                     isTypesOpen
                       ? "opacity-100 transform translate-y-0"
                       : "opacity-0 transform -translate-y-2 pointer-events-none"
@@ -257,7 +257,7 @@ function Projects({
                   <ChevronDown size={14} className="ml-1.5 text-gray-500" />
                 </button>
                 <div
-                  className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out ${
+                  className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out min-w-max ${
                     isStarsOpen
                       ? "opacity-100 transform translate-y-0"
                       : "opacity-0 transform -translate-y-2 pointer-events-none"
@@ -303,7 +303,7 @@ function Projects({
                   <ChevronDown size={14} className="ml-1.5 text-gray-500" />
                 </button>
                 <div
-                  className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out max-h-60 overflow-y-auto ${
+                  className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out max-h-60 overflow-y-auto min-w-max ${
                     isLanguagesOpen
                       ? "opacity-100 transform translate-y-0"
                       : "opacity-0 transform -translate-y-2 pointer-events-none"
