@@ -146,7 +146,7 @@ function Projects({
 
             {/* Filters */}
             <div className="flex flex-wrap gap-2">
-              {/* Tags dropdown */}
+              {/* Groups dropdown */}
               <div className="relative" ref={tagsRef}>
                 <button
                   onClick={() => setIsTagsOpen(!isTagsOpen)}
@@ -166,7 +166,7 @@ function Projects({
                   <ChevronDown size={14} className="ml-1.5 text-gray-500" />
                 </button>
                 <div
-                  className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out max-h-60 overflow-y-auto ${
+                  className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out max-h-60 overflow-y-auto min-w-max ${
                     isTagsOpen
                       ? "opacity-100 transform translate-y-0"
                       : "opacity-0 transform -translate-y-2 pointer-events-none"
@@ -209,7 +209,7 @@ function Projects({
                   <ChevronDown size={14} className="ml-1.5 text-gray-500" />
                 </button>
                 <div
-                  className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out max-h-60 overflow-y-auto ${
+                  className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out max-h-60 overflow-y-auto min-w-max ${
                     isTypesOpen
                       ? "opacity-100 transform translate-y-0"
                       : "opacity-0 transform -translate-y-2 pointer-events-none"
@@ -257,7 +257,7 @@ function Projects({
                   <ChevronDown size={14} className="ml-1.5 text-gray-500" />
                 </button>
                 <div
-                  className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out ${
+                  className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out min-w-max ${
                     isStarsOpen
                       ? "opacity-100 transform translate-y-0"
                       : "opacity-0 transform -translate-y-2 pointer-events-none"
@@ -303,7 +303,7 @@ function Projects({
                   <ChevronDown size={14} className="ml-1.5 text-gray-500" />
                 </button>
                 <div
-                  className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out max-h-60 overflow-y-auto ${
+                  className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out max-h-60 overflow-y-auto min-w-max ${
                     isLanguagesOpen
                       ? "opacity-100 transform translate-y-0"
                       : "opacity-0 transform -translate-y-2 pointer-events-none"
