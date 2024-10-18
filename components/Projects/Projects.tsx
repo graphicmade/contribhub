@@ -23,7 +23,7 @@ function Projects({
   showFindBar = true,
   initialHacktoberfest = false,
 }: ProjectsProps) {
-  const [selectedTags, setSelectedTags] = useState<string[]>(initialGroups)
+  const [selectedGroups, setSelectedGroups] = useState<string[]>(initialGroups)
   const [selectedTypes, setSelectedTypes] = useState<string[]>(initialContributions)
   const randomSeed: number = Math.floor(Date.now() / (1000 * 60 * 60)) // Generates a unique number every hour
 
@@ -84,7 +84,7 @@ function Projects({
   }, []);
 
   const toggleTag = (tagId: string) => {
-    setSelectedTags(prev =>
+    setSelectedGroups(prev =>
       prev.includes(tagId) ? prev.filter(id => id !== tagId) : [...prev, tagId]
     )
   }
@@ -102,13 +102,13 @@ function Projects({
   }
 
   const filteredProjects = projects.filter(project => {
-    const matchesTags = selectedTags.length === 0 || project.groups?.split(',').some(tag => selectedTags.includes(tag.toLowerCase())) || false;
+    const matchesTags = selectedGroups.length === 0 || project.groups?.split(',').some(tag => selectedGroups.includes(tag.toLowerCase())) || false;
     const matchesStars = starFilter === null || ((project.stars_count ?? 0) >= starFilter[0] && (project.stars_count ?? 0) <= starFilter[1]);
     return matchesTags && (starFilter === null || matchesStars);
   });
 
   const fetchProjects = async () => {
-    const selectedGroup = selectedTags.join(',')
+    const selectedGroup = selectedGroups.join(',')
     const selectedContributions = selectedTypes.join(',')
     const selectedLanguage = selectedLanguages.join(',')
     const { projects: fetchedProjects, totalCount } = await getProjectsByMultipleFilters(
@@ -129,7 +129,7 @@ function Projects({
 
   useEffect(() => {
     fetchProjects()
-  }, [selectedTags, selectedTypes, selectedLanguages, searchQuery, page, pageSize, starFilter, isHacktoberfest])
+  }, [selectedGroups, selectedTypes, selectedLanguages, searchQuery, page, pageSize, starFilter, isHacktoberfest])
 
   return (
     <div className="flex flex-col w-full pb-20">
@@ -179,7 +179,7 @@ function Projects({
                     >
                       <input
                         type="checkbox"
-                        checked={selectedTags.includes(tag.id)}
+                        checked={selectedGroups.includes(tag.id)}
                         onChange={() => toggleTag(tag.id)}
                         className="mr-2"
                       />
