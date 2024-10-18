@@ -150,12 +150,13 @@ function Projects({
               <div className="relative" ref={tagsRef}>
                 <button
                   onClick={() => setIsTagsOpen(!isTagsOpen)}
-                  className="flex items-center border hover:border-[#5472f9] rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm"
+                  className="flex items-center border hover:border-[#5472f9] hover:text-gray-600 rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 text-gray-500 font-medium text-sm"
                   style={
                     isTagsOpen
                       ? {
                           borderColor: "#5472f9",
                           backgroundColor: "#5472f910",
+                          color: "#4B5563",
                         }
                       : {}
                   }
@@ -192,12 +193,13 @@ function Projects({
               <div className="relative" ref={typesRef}>
                 <button
                   onClick={() => setIsTypesOpen(!isTypesOpen)}
-                  className="flex items-center border hover:border-[#5472f9] rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm"
+                  className="flex items-center border hover:border-[#5472f9] hover:text-gray-600 rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm"
                   style={
                     isTypesOpen
                       ? {
                           borderColor: "#5472f9",
                           backgroundColor: "#5472f910",
+                          color: "#4B5563",
                         }
                       : {}
                   }
@@ -234,12 +236,13 @@ function Projects({
               <div className="relative" ref={starsRef}>
                 <button
                   onClick={() => setIsStarsOpen(!isStarsOpen)}
-                  className="flex items-center border hover:border-[#5472f9] rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm"
+                  className="flex items-center border hover:border-[#5472f9] hover:text-gray-600 rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm"
                   style={
                     isStarsOpen
                       ? {
                           borderColor: "#5472f9",
                           backgroundColor: "#5472f910",
+                          color: "#4B5563",
                         }
                       : {}
                   }
@@ -284,12 +287,13 @@ function Projects({
               <div className="relative" ref={languagesRef}>
                 <button
                   onClick={() => setIsLanguagesOpen(!isLanguagesOpen)}
-                  className="flex items-center border hover:border-[#5472f9] rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm"
+                  className="flex items-center border hover:border-[#5472f9] hover:text-gray-600 rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm"
                   style={
                     isLanguagesOpen
                       ? {
                           borderColor: "#5472f9",
                           backgroundColor: "#5472f910",
+                          color: "#4B5563",
                         }
                       : {}
                   }
@@ -325,7 +329,7 @@ function Projects({
               {/* Hacktoberfest filter button */}
               <button
                 onClick={() => setIsHacktoberfest(!isHacktoberfest)}
-                className={`flex items-center border border-[#38c831] hover:bg-[#ecffea] rounded-full px-3 py-1.5 whitespace-nowrap w-auto font-medium text-sm ${
+                className={`flex items-center border border-[#38c831] hover:bg-[#ecffea] hover:text-gray-600 rounded-full px-3 py-1.5 whitespace-nowrap w-auto font-medium text-sm ${
                   isHacktoberfest ? "text-[#183718]" : "text-gray-500"
                 }`}
                 style={
