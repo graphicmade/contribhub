@@ -175,7 +175,7 @@ function Projects({
                   {groupOptions.map((tag) => (
                     <label
                       key={tag.id}
-                      className={"flex items-center p-2 hover:bg-[#5472f920] rounded cursor-pointer" + (selectedGroups.includes(tag.id) ? " bg-[#5472f920]" : "")}
+                      className={"flex items-center p-2 hover:bg-[#5472f920] border-white border-2 rounded-md cursor-pointer" + (selectedGroups.includes(tag.id) ? " bg-[#5472f920]" : "")}
                     >
                       <input
                         type="checkbox"
@@ -218,7 +218,7 @@ function Projects({
                   {contributionOptions.map((type) => (
                     <label
                       key={type.id}
-                      className={"flex items-center p-2 hover:bg-[#5472f920] rounded cursor-pointer" + (selectedTypes.includes(type.id) ? " bg-[#5472f920]" : "")}
+                      className={"flex items-center p-2 hover:bg-[#5472f920] border-white border-2 rounded-md cursor-pointer" + (selectedTypes.includes(type.id) ? " bg-[#5472f920]" : "")}
                     >
                       <input
                         type="checkbox"
@@ -270,7 +270,7 @@ function Projects({
                         setStarFilter(option.value as [number, number] | null);
                         setIsStarsOpen(false);
                       }}
-                      className={`block w-full text-left p-2 hover:bg-[#5472f920] rounded ${
+                      className={`block w-full text-left p-2 hover:bg-[#5472f920] border-white border-2 rounded-md ${
                         JSON.stringify(starFilter) ===
                         JSON.stringify(option.value)
                           ? "bg-[#5472f920]"
@@ -312,7 +312,7 @@ function Projects({
                   {languagesOptions.map((language) => (
                     <label
                       key={language.id}
-                      className={"flex items-center p-2 hover:bg-[#5472f920] rounded cursor-pointer" + (selectedLanguages.includes(language.id) ? " bg-[#5472f920]" : "")}
+                      className={"flex items-center p-2 hover:bg-[#5472f920] border-white border-2 rounded-md cursor-pointer" + (selectedLanguages.includes(language.id) ? " bg-[#5472f920]" : "")}
                     >
                       <input
                         type="checkbox"
