@@ -149,7 +149,7 @@ function Projects({
               {/* Groups dropdown */}
               <div className="relative" ref={tagsRef}>
                 <button
-                  onClick={() => setIsGroupsOpen(!isGroupsOpen)}
+                  onClick={() => {setIsGroupsOpen(!isGroupsOpen)}}
                   className={`flex items-center border hover:border-[#5472f9] hover:text-gray-600 rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm ${ selectedGroups.length && " bg-[#5472f920] border-[#5472f9] text-gray-600" }`}
                   style={
                     isGroupsOpen
@@ -182,6 +182,7 @@ function Projects({
                         checked={selectedGroups.includes(tag.id)}
                         onChange={() => toggleTag(tag.id)}
                         className="mr-2"
+                        tabIndex={isGroupsOpen ? 0 : -1}
                       />
                       {tag.icon} {tag.label}
                     </label>
@@ -225,6 +226,7 @@ function Projects({
                         checked={selectedTypes.includes(type.id)}
                         onChange={() => toggleType(type.id)}
                         className="mr-2"
+                        tabIndex={isTypesOpen ? 0 : -1}
                       />
                       {type.icon} {type.label}
                     </label>
@@ -276,6 +278,7 @@ function Projects({
                           ? "bg-[#5472f920]"
                           : ""
                       }`}
+                      tabIndex={isStarsOpen ? 0 : -1}
                     >
                       {option.label}
                     </button>
@@ -319,6 +322,7 @@ function Projects({
                         checked={selectedLanguages.includes(language.id)}
                         onChange={() => toggleLanguage(language.id)}
                         className="mr-2"
+                        tabIndex={isLanguagesOpen ? 0 : -1}
                       />
                       {language.icon} {language.label}
                     </label>
