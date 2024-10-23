@@ -5,6 +5,7 @@ import { CircleDotIcon, TagIcon } from 'lucide-react';
 import { getRepoIssues } from '@/services/utils/github';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import { Badge } from '@/components/ui/badge';
 
 interface IssuesTabProps {
   owner: string;
@@ -53,6 +54,12 @@ function IssuesTab({ owner, repo }: IssuesTabProps) {
   const [goodFirstIssues, setGoodFirstIssues] = useState<Issue[]>([]);
   const [hacktoberfestIssues, setHacktoberfestIssues] = useState<Issue[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  const formatIssuesCount = (issues: Issue[]) => {
+    if (issues.length === 0) return '';
+
+    return issues.length > 99 ? "99+" : issues.length;
+  }
 
   useEffect(() => {
     async function fetchIssues() {
@@ -125,10 +132,10 @@ function IssuesTab({ owner, repo }: IssuesTabProps) {
       <Tabs defaultValue="all" className="w-full">
         <div className="flex justify-between items-center mb-6">
           <h2 className='text-2xl font-bold text-gray-800'>
-            <TabsContent value="all">Open Issues</TabsContent>
-            <TabsContent value="help-wanted">Help Wanted Issues</TabsContent>
-            <TabsContent value="good-first-issue">Good First Issue</TabsContent>
-            <TabsContent value="hacktoberfest">Hacktoberfest</TabsContent>
+            <TabsContent value="all"><Badge content={formatIssuesCount(issues)}>Open Issues</Badge></TabsContent>
+            <TabsContent value="help-wanted"><Badge content={formatIssuesCount(helpWantedIssues)}>Help Wanted Issues</Badge></TabsContent>
+            <TabsContent value="good-first-issue"><Badge content={formatIssuesCount(goodFirstIssues)}>Good First Issue</Badge></TabsContent>
+            <TabsContent value="hacktoberfest"><Badge content={formatIssuesCount(hacktoberfestIssues)}>Hacktoberfest</Badge></TabsContent>
           </h2>
           <TabsList className="flex items-center bg-gray-100 rounded-full">
             <TabsTrigger value="all" className="rounded-full px-4 py-1 text-sm font-medium transition-colors focus:outline-none ">
