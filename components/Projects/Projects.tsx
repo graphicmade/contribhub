@@ -153,7 +153,7 @@ function Projects({
     <div className="flex flex-col w-full pb-20">
       <div className="flex flex-col w-full justify-center items-center">
         {showFindBar && (
-          <div className='flex flex-col gap-2'>
+          <div className='flex flex-col gap-1.5 mb-5'>
             {/* Search bar */}
             <div className="bg-white light-shadow rounded-3xl h-auto p-3 w-full flex flex-col items-center gap-2 pr-4">
               <input
@@ -374,20 +374,28 @@ function Projects({
                 </button>
               </div>
             </div>
+            
             {/* Selected filters */}
             <div className='flex flex-wrap px-1 max-w-prose'>
-              
               {/* Filters by dropdowns */}
-              {selectedGroups.map((group) => <SelectedFilter key={group} name={group} toggle={() => toggleTag(group)} />)}
-              {selectedTypes.map((type) => <SelectedFilter key={type} name={type} toggle={() => toggleType(type)} />)}
+              {selectedGroups.map((group) => (
+                <SelectedFilter key={group} name={group} toggle={() => toggleTag(group)} />
+              ))}
+              {selectedTypes.map((type) => (
+                <SelectedFilter key={type} name={type} toggle={() => toggleType(type)} />
+              ))}
               {starFilter && 
                 <SelectedFilter 
                   name={`Stars: ${starFilter[0]}-${starFilter[1] === Infinity ? "∞" : starFilter[1]}`} 
                   toggle={() => setStarFilter(null)} 
                 />
               }
-              {selectedLanguages.map((language) => <SelectedFilter key={language} name={language} toggle={() => toggleLanguage(language)} />)}
-              {isHacktoberfest && (<SelectedFilter name='hacktoberfest' toggle={() => setIsHacktoberfest(false)} />)}
+              {selectedLanguages.map((language) => (
+                <SelectedFilter key={language} name={language} toggle={() => toggleLanguage(language)} />
+              ))}
+              {isHacktoberfest && (
+                <SelectedFilter name='hacktoberfest' toggle={() => setIsHacktoberfest(false)} />
+              )}
 
               {/* Clear all */}
               {(selectedGroups.length > 0 || selectedTypes.length > 0 || starFilter || selectedLanguages.length > 0 || isHacktoberfest) && (
