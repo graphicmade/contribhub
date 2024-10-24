@@ -14,13 +14,13 @@ interface SelectedFilterProps {
 function SelectedFilter({name, toggle}: SelectedFilterProps): React.ReactElement {
   // const name = key.charAt(0).toUpperCase() + key.substring(1)
   return (
-    <span 
+    <button 
       key={name} 
       className='flex items-center p-1 px-2 my-1 bg-[#5472f910] border border-[#5472f970] mr-2 rounded text-sm text-gray-800 cursor-pointer'
       onClick={() => toggle()}
       >{name.charAt(0).toUpperCase() + name.substring(1)}
       <X size={14} className="ml-1.5 text-gray-800" />
-    </span>
+    </button>
   )
 }
 
@@ -376,26 +376,23 @@ function Projects({
             </div>
             {/* Selected filters */}
             <div className='flex flex-wrap px-1 max-w-prose'>
+              
               {/* Filters by dropdowns */}
               {selectedGroups.map((group) => <SelectedFilter key={group} name={group} toggle={() => toggleTag(group)} />)}
-
               {selectedTypes.map((type) => <SelectedFilter key={type} name={type} toggle={() => toggleType(type)} />)}
-
               {starFilter && 
                 <SelectedFilter 
                   name={`Stars: ${starFilter[0]}-${starFilter[1] === Infinity ? "∞" : starFilter[1]}`} 
                   toggle={() => setStarFilter(null)} 
                 />
               }
-
               {selectedLanguages.map((language) => <SelectedFilter key={language} name={language} toggle={() => toggleLanguage(language)} />)}
-
               {isHacktoberfest && (<SelectedFilter name='hacktoberfest' toggle={() => setIsHacktoberfest(false)} />)}
 
               {/* Clear all */}
               {(selectedGroups.length > 0 || selectedTypes.length > 0 || starFilter || selectedLanguages.length > 0 || isHacktoberfest) && (
                 <button 
-                  className='text-gray-600 underline hover:no-underline hover:text-[#5472f9]'
+                  className='text-gray-600 text-sm underline hover:no-underline hover:text-[#5472f9]'
                   onClick={() => {
                     setSelectedGroups([])
                     setSelectedTypes([])
