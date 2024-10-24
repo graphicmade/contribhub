@@ -1,10 +1,28 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react'
-import { List, Tags, ChevronDown, CircleDot, Group, Code, GitBranch } from 'lucide-react'
+import { List, Tags, ChevronDown, CircleDot, Group, Code, GitBranch, X } from 'lucide-react'
 import { StarFilledIcon } from '@radix-ui/react-icons'
 import { getProjectsByMultipleFilters, Project } from '@/services/projects/projects'
 import Link from 'next/link'
 import { contributionOptions, languagesOptions, groupOptions } from '@/services/projects/utils'
+
+interface SelectedFilterProps {
+  name: string;
+  toggle: () => void;
+}
+
+function SelectedFilter({name, toggle}: SelectedFilterProps): React.ReactElement {
+  // const name = key.charAt(0).toUpperCase() + key.substring(1)
+  return (
+    <span 
+      key={name} 
+      className='flex items-center p-1 px-2 my-1 bg-[#5472f910] border border-[#5472f970] mr-2 rounded text-sm text-gray-800 cursor-pointer'
+      onClick={() => toggle()}
+      >{name.charAt(0).toUpperCase() + name.substring(1)}
+      <X size={14} className="ml-1.5 text-gray-800" />
+    </span>
+  )
+}
 
 interface ProjectsProps {
   initialGroups?: string[];
@@ -135,223 +153,259 @@ function Projects({
     <div className="flex flex-col w-full pb-20">
       <div className="flex flex-col w-full justify-center items-center">
         {showFindBar && (
-          <div className="bg-white light-shadow rounded-3xl h-auto max-w-4xl p-3 w-full flex flex-col items-center gap-2 pr-4 mb-5">
-            <input
-              type="text"
-              placeholder="Search projects..."
-              className="rounded-full px-3 py-1.5 border border-gray-100/100 bg-gray-50 w-full text-sm"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+          <div className='flex flex-col gap-2'>
+            {/* Search bar */}
+            <div className="bg-white light-shadow rounded-3xl h-auto p-3 w-full flex flex-col items-center gap-2 pr-4">
+              <input
+                type="text"
+                placeholder="Search projects..."
+                className="rounded-full px-3 py-1.5 border border-gray-100/100 bg-gray-50 w-full text-sm"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
 
-            {/* Filters */}
-            <div className="flex flex-wrap gap-2">
-              {/* Groups dropdown */}
-              <div className="relative" ref={tagsRef}>
-                <button
-                  onClick={() => {setIsGroupsOpen(!isGroupsOpen)}}
-                  className={`flex items-center border hover:border-[#5472f9] hover:text-gray-600 rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm ${ selectedGroups.length && " bg-[#5472f920] border-[#5472f9] text-gray-600" }`}
-                  style={
-                    isGroupsOpen
-                      ? {
-                          borderColor: "#5472f9",
-                          backgroundColor: "#5472f910",
-                          color: "#4B5563",
-                        }
-                      : {}
-                  }
-                >
-                  <Group size={14} className="mr-1.5 text-gray-500" />
-                  Groups
-                  <ChevronDown size={14} className="ml-1.5 text-gray-500" />
-                </button>
-                <div
-                  className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out max-h-60 overflow-y-auto min-w-max ${
-                    isGroupsOpen
-                      ? "opacity-100 transform translate-y-0"
-                      : "opacity-0 transform -translate-y-2 pointer-events-none"
-                  }`}
-                >
-                  {groupOptions.map((tag) => (
-                    <label
-                      key={tag.id}
-                      className={"flex items-center p-2 hover:bg-[#5472f920] border-white border-2 rounded-md cursor-pointer" + (selectedGroups.includes(tag.id) ? " bg-[#5472f920]" : "")}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={selectedGroups.includes(tag.id)}
-                        onChange={() => toggleTag(tag.id)}
-                        className="mr-2"
-                        tabIndex={isGroupsOpen ? 0 : -1}
-                      />
-                      {tag.icon} {tag.label}
-                    </label>
-                  ))}
+              {/* Filters */}
+              <div className="flex flex-wrap gap-2">
+                {/* Groups dropdown */}
+                <div className="relative" ref={tagsRef}>
+                  <button
+                    onClick={() => {setIsGroupsOpen(!isGroupsOpen)}}
+                    className={`flex items-center border hover:border-[#5472f9] hover:text-gray-600 rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm ${ selectedGroups.length && " bg-[#5472f920] border-[#5472f9] text-gray-600" }`}
+                    style={
+                      isGroupsOpen
+                        ? {
+                            borderColor: "#5472f9",
+                            backgroundColor: "#5472f910",
+                            color: "#4B5563",
+                          }
+                        : {}
+                    }
+                  >
+                    <Group size={14} className="mr-1.5 text-gray-500" />
+                    Groups
+                    <ChevronDown size={14} className="ml-1.5 text-gray-500" />
+                  </button>
+                  <div
+                    className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out max-h-60 overflow-y-auto min-w-max ${
+                      isGroupsOpen
+                        ? "opacity-100 transform translate-y-0"
+                        : "opacity-0 transform -translate-y-2 pointer-events-none"
+                    }`}
+                  >
+                    {groupOptions.map((tag) => (
+                      <label
+                        key={tag.id}
+                        className={"flex items-center p-2 hover:bg-[#5472f920] border-white border-2 rounded-md cursor-pointer" + (selectedGroups.includes(tag.id) ? " bg-[#5472f920]" : "")}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={selectedGroups.includes(tag.id)}
+                          onChange={() => toggleTag(tag.id)}
+                          className="mr-2"
+                          tabIndex={isGroupsOpen ? 0 : -1}
+                        />
+                        {tag.icon} {tag.label}
+                      </label>
+                    ))}
+                  </div>
                 </div>
-              </div>
 
-              {/* Types dropdown */}
-              <div className="relative" ref={typesRef}>
-                <button
-                  onClick={() => setIsTypesOpen(!isTypesOpen)}
-                  className={`flex items-center border hover:border-[#5472f9] hover:text-gray-600 rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm ${ selectedTypes.length && " bg-[#5472f920] border-[#5472f9] text-gray-600" }`}
-                  style={
-                    isTypesOpen
-                      ? {
-                          borderColor: "#5472f9",
-                          backgroundColor: "#5472f910",
-                          color: "#4B5563",
-                        }
-                      : {}
-                  }
-                >
-                  <CircleDot size={14} className="mr-1.5 text-gray-500" />
-                  Contributions
-                  <ChevronDown size={14} className="ml-1.5 text-gray-500" />
-                </button>
-                <div
-                  className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out max-h-60 overflow-y-auto min-w-max ${
-                    isTypesOpen
-                      ? "opacity-100 transform translate-y-0"
-                      : "opacity-0 transform -translate-y-2 pointer-events-none"
-                  }`}
-                >
-                  {contributionOptions.map((type) => (
-                    <label
-                      key={type.id}
-                      className={"flex items-center p-2 hover:bg-[#5472f920] border-white border-2 rounded-md cursor-pointer" + (selectedTypes.includes(type.id) ? " bg-[#5472f920]" : "")}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={selectedTypes.includes(type.id)}
-                        onChange={() => toggleType(type.id)}
-                        className="mr-2"
-                        tabIndex={isTypesOpen ? 0 : -1}
-                      />
-                      {type.icon} {type.label}
-                    </label>
-                  ))}
+                {/* Types dropdown */}
+                <div className="relative" ref={typesRef}>
+                  <button
+                    onClick={() => setIsTypesOpen(!isTypesOpen)}
+                    className={`flex items-center border hover:border-[#5472f9] hover:text-gray-600 rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm ${ selectedTypes.length && " bg-[#5472f920] border-[#5472f9] text-gray-600" }`}
+                    style={
+                      isTypesOpen
+                        ? {
+                            borderColor: "#5472f9",
+                            backgroundColor: "#5472f910",
+                            color: "#4B5563",
+                          }
+                        : {}
+                    }
+                  >
+                    <CircleDot size={14} className="mr-1.5 text-gray-500" />
+                    Contributions
+                    <ChevronDown size={14} className="ml-1.5 text-gray-500" />
+                  </button>
+                  <div
+                    className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out max-h-60 overflow-y-auto min-w-max ${
+                      isTypesOpen
+                        ? "opacity-100 transform translate-y-0"
+                        : "opacity-0 transform -translate-y-2 pointer-events-none"
+                    }`}
+                  >
+                    {contributionOptions.map((type) => (
+                      <label
+                        key={type.id}
+                        className={"flex items-center p-2 hover:bg-[#5472f920] border-white border-2 rounded-md cursor-pointer" + (selectedTypes.includes(type.id) ? " bg-[#5472f920]" : "")}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={selectedTypes.includes(type.id)}
+                          onChange={() => toggleType(type.id)}
+                          className="mr-2"
+                          tabIndex={isTypesOpen ? 0 : -1}
+                        />
+                        {type.icon} {type.label}
+                      </label>
+                    ))}
+                  </div>
                 </div>
-              </div>
 
-              {/* Stars dropdown */}
-              <div className="relative" ref={starsRef}>
-                <button
-                  onClick={() => setIsStarsOpen(!isStarsOpen)}
-                  className={`flex items-center border hover:border-[#5472f9] hover:text-gray-600 rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm ${ starFilter && " bg-[#5472f920] border-[#5472f9] text-gray-600" }`}
-                  style={
-                    isStarsOpen
-                      ? {
-                          borderColor: "#5472f9",
-                          backgroundColor: "#5472f910",
-                          color: "#4B5563",
-                        }
-                      : {}
-                  }
-                >
-                  <StarFilledIcon className="mr-1.5 text-gray-500" />
-                  Stars:{" "}
-                  {starFilter
-                    ? `${starFilter[0]}-${
-                        starFilter[1] === Infinity ? "∞" : starFilter[1]
-                      }`
-                    : "All"}
-                  <ChevronDown size={14} className="ml-1.5 text-gray-500" />
-                </button>
-                <div
-                  className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out min-w-max ${
-                    isStarsOpen
-                      ? "opacity-100 transform translate-y-0"
-                      : "opacity-0 transform -translate-y-2 pointer-events-none"
-                  }`}
-                >
-                  {starOptions.map((option) => (
-                    <button
-                      key={option.label}
-                      onClick={() => {
-                        setStarFilter(option.value as [number, number] | null);
-                        setIsStarsOpen(false);
-                      }}
-                      className={`block w-full text-left p-2 hover:bg-[#5472f920] border-white border-2 rounded-md ${
-                        JSON.stringify(starFilter) ===
-                        JSON.stringify(option.value)
-                          ? "bg-[#5472f920]"
-                          : ""
-                      }`}
-                      tabIndex={isStarsOpen ? 0 : -1}
-                    >
-                      {option.label}
-                    </button>
-                  ))}
+                {/* Stars dropdown */}
+                <div className="relative" ref={starsRef}>
+                  <button
+                    onClick={() => setIsStarsOpen(!isStarsOpen)}
+                    className={`flex items-center border hover:border-[#5472f9] hover:text-gray-600 rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm ${ starFilter && " bg-[#5472f920] border-[#5472f9] text-gray-600" }`}
+                    style={
+                      isStarsOpen
+                        ? {
+                            borderColor: "#5472f9",
+                            backgroundColor: "#5472f910",
+                            color: "#4B5563",
+                          }
+                        : {}
+                    }
+                  >
+                    <StarFilledIcon className="mr-1.5 text-gray-500" />
+                    Stars:{" "}
+                    {starFilter
+                      ? `${starFilter[0]}-${
+                          starFilter[1] === Infinity ? "∞" : starFilter[1]
+                        }`
+                      : "All"}
+                    <ChevronDown size={14} className="ml-1.5 text-gray-500" />
+                  </button>
+                  <div
+                    className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out min-w-max ${
+                      isStarsOpen
+                        ? "opacity-100 transform translate-y-0"
+                        : "opacity-0 transform -translate-y-2 pointer-events-none"
+                    }`}
+                  >
+                    {starOptions.map((option) => (
+                      <button
+                        key={option.label}
+                        onClick={() => {
+                          setStarFilter(option.value as [number, number] | null);
+                          setIsStarsOpen(false);
+                        }}
+                        className={`block w-full text-left p-2 hover:bg-[#5472f920] border-white border-2 rounded-md ${
+                          JSON.stringify(starFilter) ===
+                          JSON.stringify(option.value)
+                            ? "bg-[#5472f920]"
+                            : ""
+                        }`}
+                        tabIndex={isStarsOpen ? 0 : -1}
+                      >
+                        {option.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
 
-              {/* Languages dropdown */}
-              <div className="relative" ref={languagesRef}>
-                <button
-                  onClick={() => setIsLanguagesOpen(!isLanguagesOpen)}
-                  className={`flex items-center border hover:border-[#5472f9] hover:text-gray-600 rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm ${ selectedLanguages.length && " bg-[#5472f920] border-[#5472f9] text-gray-600" }`}
-                  style={
-                    isLanguagesOpen
-                      ? {
-                          borderColor: "#5472f9",
-                          backgroundColor: "#5472f910",
-                          color: "#4B5563",
-                        }
-                      : {}
-                  }
-                >
-                  <Code size={14} className="mr-1.5 text-gray-500" />
-                  Languages
-                  <ChevronDown size={14} className="ml-1.5 text-gray-500" />
-                </button>
-                <div
-                  className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out max-h-60 overflow-y-auto min-w-max ${
-                    isLanguagesOpen
-                      ? "opacity-100 transform translate-y-0"
-                      : "opacity-0 transform -translate-y-2 pointer-events-none"
-                  }`}
-                >
-                  {languagesOptions.map((language) => (
-                    <label
-                      key={language.id}
-                      className={"flex items-center p-2 hover:bg-[#5472f920] border-white border-2 rounded-md cursor-pointer" + (selectedLanguages.includes(language.id) ? " bg-[#5472f920]" : "")}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={selectedLanguages.includes(language.id)}
-                        onChange={() => toggleLanguage(language.id)}
-                        className="mr-2"
-                        tabIndex={isLanguagesOpen ? 0 : -1}
-                      />
-                      {language.icon} {language.label}
-                    </label>
-                  ))}
+                {/* Languages dropdown */}
+                <div className="relative" ref={languagesRef}>
+                  <button
+                    onClick={() => setIsLanguagesOpen(!isLanguagesOpen)}
+                    className={`flex items-center border hover:border-[#5472f9] hover:text-gray-600 rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm ${ selectedLanguages.length && " bg-[#5472f920] border-[#5472f9] text-gray-600" }`}
+                    style={
+                      isLanguagesOpen
+                        ? {
+                            borderColor: "#5472f9",
+                            backgroundColor: "#5472f910",
+                            color: "#4B5563",
+                          }
+                        : {}
+                    }
+                  >
+                    <Code size={14} className="mr-1.5 text-gray-500" />
+                    Languages
+                    <ChevronDown size={14} className="ml-1.5 text-gray-500" />
+                  </button>
+                  <div
+                    className={`absolute top-full left-0 mt-2 bg-white rounded-lg nice-shadow p-2 z-10 transition-all duration-300 ease-in-out max-h-60 overflow-y-auto min-w-max ${
+                      isLanguagesOpen
+                        ? "opacity-100 transform translate-y-0"
+                        : "opacity-0 transform -translate-y-2 pointer-events-none"
+                    }`}
+                  >
+                    {languagesOptions.map((language) => (
+                      <label
+                        key={language.id}
+                        className={"flex items-center p-2 hover:bg-[#5472f920] border-white border-2 rounded-md cursor-pointer" + (selectedLanguages.includes(language.id) ? " bg-[#5472f920]" : "")}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={selectedLanguages.includes(language.id)}
+                          onChange={() => toggleLanguage(language.id)}
+                          className="mr-2"
+                          tabIndex={isLanguagesOpen ? 0 : -1}
+                        />
+                        {language.icon} {language.label}
+                      </label>
+                    ))}
+                  </div>
                 </div>
-              </div>
 
-              {/* Hacktoberfest filter button */}
-              <button
-                onClick={() => setIsHacktoberfest(!isHacktoberfest)}
-                className={`flex items-center border border-[#38c831] hover:bg-[#ecffea] hover:text-gray-600 rounded-full px-3 py-1.5 whitespace-nowrap w-auto font-medium text-sm ${
-                  isHacktoberfest ? "text-[#183718]" : "text-gray-500"
-                }`}
-                style={
-                  isHacktoberfest
-                    ? {
-                        background: "linear-gradient(to top, #38c831, #51da4b)",
-                      }
-                    : {}
-                }
-              >
-                <GitBranch
-                  size={14}
-                  className={`mr-1.5 ${
+                {/* Hacktoberfest filter button */}
+                <button
+                  onClick={() => setIsHacktoberfest(!isHacktoberfest)}
+                  className={`flex items-center border border-[#38c831] hover:bg-[#ecffea] hover:text-gray-600 rounded-full px-3 py-1.5 whitespace-nowrap w-auto font-medium text-sm ${
                     isHacktoberfest ? "text-[#183718]" : "text-gray-500"
                   }`}
+                  style={
+                    isHacktoberfest
+                      ? {
+                          background: "linear-gradient(to top, #38c831, #51da4b)",
+                        }
+                      : {}
+                  }
+                >
+                  <GitBranch
+                    size={14}
+                    className={`mr-1.5 ${
+                      isHacktoberfest ? "text-[#183718]" : "text-gray-500"
+                    }`}
+                  />
+                  Hacktoberfest
+                </button>
+              </div>
+            </div>
+            {/* Selected filters */}
+            <div className='flex flex-wrap px-1 max-w-prose'>
+              {/* Filters by dropdowns */}
+              {selectedGroups.map((group) => <SelectedFilter key={group} name={group} toggle={() => toggleTag(group)} />)}
+
+              {selectedTypes.map((type) => <SelectedFilter key={type} name={type} toggle={() => toggleType(type)} />)}
+
+              {starFilter && 
+                <SelectedFilter 
+                  name={`Stars: ${starFilter[0]}-${starFilter[1] === Infinity ? "∞" : starFilter[1]}`} 
+                  toggle={() => setStarFilter(null)} 
                 />
-                Hacktoberfest
-              </button>
+              }
+
+              {selectedLanguages.map((language) => <SelectedFilter key={language} name={language} toggle={() => toggleLanguage(language)} />)}
+
+              {isHacktoberfest && (<SelectedFilter name='hacktoberfest' toggle={() => setIsHacktoberfest(false)} />)}
+
+              {/* Clear all */}
+              {(selectedGroups.length > 0 || selectedTypes.length > 0 || starFilter || selectedLanguages.length > 0 || isHacktoberfest) && (
+                <button 
+                  className='text-gray-600 underline hover:no-underline hover:text-[#5472f9]'
+                  onClick={() => {
+                    setSelectedGroups([])
+                    setSelectedTypes([])
+                    setStarFilter(null)
+                    setSelectedLanguages([])
+                    setIsHacktoberfest(false)
+                  }}
+                  >Clear All
+                </button>
+              )}
             </div>
           </div>
         )}
