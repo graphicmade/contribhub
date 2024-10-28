@@ -6,19 +6,31 @@ import { getProjectsByMultipleFilters, Project } from '@/services/projects/proje
 import Link from 'next/link'
 import { contributionOptions, languagesOptions, groupOptions } from '@/services/projects/utils'
 
-interface SelectedFilterProps {
-  name: string;
-  toggle: () => void;
+type Option = {
+  id: string;
+  value: string;
+  label: string;
+  icon: string;
 }
 
-function SelectedFilter({name, toggle}: SelectedFilterProps): React.ReactElement {
-  // const name = key.charAt(0).toUpperCase() + key.substring(1)
+interface SelectedFilterProps {
+  id: string;
+  toggle: () => void;
+  group?: Option[];
+}
+
+function SelectedFilter({id, toggle, group}: SelectedFilterProps): React.ReactElement {
+  let name = id.charAt(0).toUpperCase() + id.substring(1)
+  if (group) {
+    const option = group.find((option: Option) => option.id === id) || { id: '', value: '', label: '', icon: '' }
+    name = option.icon + " " + option.label
+  }
   return (
-    <button 
-      key={name} 
+    <button
+      key={id}
       className='flex items-center p-1 px-2 my-1 bg-[#5472f910] border border-[#5472f970] mr-2 rounded text-sm text-gray-800 cursor-pointer'
       onClick={() => toggle()}
-      >{name.charAt(0).toUpperCase() + name.substring(1)}
+      >{name}
       <X size={14} className="ml-1.5 text-gray-800" />
     </button>
   )
@@ -374,32 +386,32 @@ function Projects({
                 </button>
               </div>
             </div>
-            
+
             {/* Selected filters */}
             <div className='flex flex-wrap px-1 max-w-prose'>
               {/* Filters by dropdowns */}
               {selectedGroups.map((group) => (
-                <SelectedFilter key={group} name={group} toggle={() => toggleTag(group)} />
+                <SelectedFilter key={group} id={group} toggle={() => toggleTag(group)} group={groupOptions} />
               ))}
               {selectedTypes.map((type) => (
-                <SelectedFilter key={type} name={type} toggle={() => toggleType(type)} />
+                <SelectedFilter key={type} id={type} toggle={() => toggleType(type)} group={contributionOptions} />
               ))}
-              {starFilter && 
-                <SelectedFilter 
-                  name={`Stars: ${starFilter[0]}-${starFilter[1] === Infinity ? "∞" : starFilter[1]}`} 
-                  toggle={() => setStarFilter(null)} 
+              {starFilter &&
+                <SelectedFilter
+                  id={`Stars: ${starFilter[0]}-${starFilter[1] === Infinity ? "∞" : starFilter[1]}`}
+                  toggle={() => setStarFilter(null)}
                 />
               }
               {selectedLanguages.map((language) => (
-                <SelectedFilter key={language} name={language} toggle={() => toggleLanguage(language)} />
+                <SelectedFilter key={language} id={language} toggle={() => toggleLanguage(language)} group={languagesOptions} />
               ))}
               {isHacktoberfest && (
-                <SelectedFilter name='hacktoberfest' toggle={() => setIsHacktoberfest(false)} />
+                <SelectedFilter id='hacktoberfest' toggle={() => setIsHacktoberfest(false)} />
               )}
 
               {/* Clear all */}
               {(selectedGroups.length > 0 || selectedTypes.length > 0 || starFilter || selectedLanguages.length > 0 || isHacktoberfest) && (
-                <button 
+                <button
                   className='text-gray-600 text-sm underline hover:no-underline hover:text-[#5472f9]'
                   onClick={() => {
                     setSelectedGroups([])
