@@ -49,7 +49,7 @@ function DashMenu() {
 
         <div className="flex flex-col items-center space-y-4 ml-3 mb-4">
           <TooltipWrapper content="Profile">
-            <Link href="/profile" className="w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center">
+            <div className="w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center">
               <img
                 src={session.user.user_metadata.avatar_url || '/default-avatar.png'}
                 alt="User Avatar"
@@ -57,7 +57,7 @@ function DashMenu() {
                 height={24}
                 className="rounded-full nice-shadow "
               />
-            </Link>
+            </div>
           </TooltipWrapper>
           <TooltipWrapper content="Settings">
             <Link href="/dashboard/account" className="flex flex-col items-center space-y-1">
