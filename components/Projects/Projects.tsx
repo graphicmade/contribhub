@@ -182,7 +182,7 @@ function Projects({
                 <div className="relative" ref={tagsRef}>
                   <button
                     onClick={() => {setIsGroupsOpen(!isGroupsOpen)}}
-                    className={`flex items-center border hover:border-[#5472f9] hover:text-gray-600 rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm ${ selectedGroups.length && " bg-[#5472f920] border-[#5472f9] text-gray-600" }`}
+                    className={`flex items-center border hover:border-[#5472f9] hover:text-gray-600 rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm ${ selectedGroups.length && " bg-[#5472f920] border-[#5472f9] text-gray-600" } transition-all ease-linear duration-300`}
                     style={
                       isGroupsOpen
                         ? {
@@ -226,7 +226,7 @@ function Projects({
                 <div className="relative" ref={typesRef}>
                   <button
                     onClick={() => setIsTypesOpen(!isTypesOpen)}
-                    className={`flex items-center border hover:border-[#5472f9] hover:text-gray-600 rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm ${ selectedTypes.length && " bg-[#5472f920] border-[#5472f9] text-gray-600" }`}
+                    className={`flex items-center border hover:border-[#5472f9] hover:text-gray-600 rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm ${ selectedTypes.length && " bg-[#5472f920] border-[#5472f9] text-gray-600" } transition-all ease-linear duration-300`}
                     style={
                       isTypesOpen
                         ? {
@@ -270,7 +270,7 @@ function Projects({
                 <div className="relative" ref={starsRef}>
                   <button
                     onClick={() => setIsStarsOpen(!isStarsOpen)}
-                    className={`flex items-center border hover:border-[#5472f9] hover:text-gray-600 rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm ${ starFilter && " bg-[#5472f920] border-[#5472f9] text-gray-600" }`}
+                    className={`flex items-center border hover:border-[#5472f9] hover:text-gray-600 rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm ${ starFilter && " bg-[#5472f920] border-[#5472f9] text-gray-600" } transition-all ease-linear duration-300`}
                     style={
                       isStarsOpen
                         ? {
@@ -322,7 +322,7 @@ function Projects({
                 <div className="relative" ref={languagesRef}>
                   <button
                     onClick={() => setIsLanguagesOpen(!isLanguagesOpen)}
-                    className={`flex items-center border hover:border-[#5472f9] hover:text-gray-600 rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm ${ selectedLanguages.length && " bg-[#5472f920] border-[#5472f9] text-gray-600" }`}
+                    className={`flex items-center border hover:border-[#5472f9] hover:text-gray-600 rounded-full px-3 py-1.5 whitespace-nowrap w-auto text-gray-500 font-medium text-sm ${ selectedLanguages.length && " bg-[#5472f920] border-[#5472f9] text-gray-600" } transition-all ease-linear duration-300`}
                     style={
                       isLanguagesOpen
                         ? {
@@ -367,7 +367,7 @@ function Projects({
                   onClick={() => setIsHacktoberfest(!isHacktoberfest)}
                   className={`flex items-center border border-[#38c831] hover:bg-[#ecffea] hover:text-gray-600 rounded-full px-3 py-1.5 whitespace-nowrap w-auto font-medium text-sm ${
                     isHacktoberfest ? "text-[#183718]" : "text-gray-500"
-                  }`}
+                  } transition-all ease-linear duration-300`}
                   style={
                     isHacktoberfest
                       ? {
