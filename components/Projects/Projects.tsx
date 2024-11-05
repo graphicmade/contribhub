@@ -53,8 +53,13 @@ function Projects({
   showFindBar = true,
   initialHacktoberfest = false,
 }: ProjectsProps) {
-  const [selectedGroups, setSelectedGroups] = useState<string[]>(initialGroups)
-  const [selectedTypes, setSelectedTypes] = useState<string[]>(initialContributions)
+  const getInitialFilter = (filter: string, initialFilter: string[]): string[] => {
+    const storedFilter = localStorage.getItem(filter)
+    return storedFilter ? JSON.parse(storedFilter) : initialFilter
+  }
+
+  const [selectedGroups, setSelectedGroups] = useState<string[]>(getInitialFilter('selectedGroups', initialGroups))
+  const [selectedTypes, setSelectedTypes] = useState<string[]>(getInitialFilter('selectedTypes', initialContributions))
   const randomSeed: number = Math.floor(Date.now() / (1000 * 60 * 60)) // Generates a unique number every hour
 
   const [isGroupsOpen, setIsGroupsOpen] = useState(false)
@@ -63,7 +68,10 @@ function Projects({
   const tagsRef = useRef<HTMLDivElement>(null);
   const typesRef = useRef<HTMLDivElement>(null);
 
-  const [starFilter, setStarFilter] = useState<[number, number] | null>(initialStars)
+  const [starFilter, setStarFilter] = useState<[number, number] | null>(() => {
+    const storedFilter = localStorage.getItem('starFilter')
+    return storedFilter ? JSON.parse(storedFilter) : initialStars
+  })
   const [isStarsOpen, setIsStarsOpen] = useState(false)
 
   const starsRef = useRef<HTMLDivElement>(null)
@@ -85,11 +93,14 @@ function Projects({
   const [projects, setProjects] = useState<Project[]>([])
   const [totalCount, setTotalCount] = useState(0)
 
-  const [selectedLanguages, setSelectedLanguages] = useState<string[]>(initialLanguages) // Updated this line
+  const [selectedLanguages, setSelectedLanguages] = useState<string[]>(getInitialFilter('selectedLanguages', initialLanguages))
   const [isLanguagesOpen, setIsLanguagesOpen] = useState(false)
   const languagesRef = useRef<HTMLDivElement>(null)
 
-  const [isHacktoberfest, setIsHacktoberfest] = useState<boolean>(initialHacktoberfest)
+  const [isHacktoberfest, setIsHacktoberfest] = useState<boolean>(() => {
+    const storedFilter = localStorage.getItem('isHacktoberfest')
+    return storedFilter ? JSON.parse(storedFilter) : initialHacktoberfest
+  })
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -158,6 +169,12 @@ function Projects({
   }
 
   useEffect(() => {
+    localStorage.setItem('selectedGroups', JSON.stringify(selectedGroups))
+    localStorage.setItem('selectedTypes', JSON.stringify(selectedTypes))
+    localStorage.setItem('selectedLanguages', JSON.stringify(selectedLanguages))
+    localStorage.setItem('starFilter', JSON.stringify(starFilter))
+    localStorage.setItem('isHacktoberfest', JSON.stringify(isHacktoberfest))
+
     fetchProjects()
   }, [selectedGroups, selectedTypes, selectedLanguages, searchQuery, page, pageSize, starFilter, isHacktoberfest])
 
