@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import { getProjectByUuid } from '@/services/projects/projects'
 import ClientProjectPage from './client'
+import { getRepoInfo, getRepoReadme, getRepoContributors, getRepoLanguages } from '@/services/utils/github'
 
 export const dynamic = 'force-dynamic'
 
@@ -23,14 +24,14 @@ export async function generateMetadata({
     title: `${project.github_full_slug} - Project Details`,
     description: project.description || `Details for ${project.github_full_slug}`,
     robots: {
+      index: true,
+      follow: true,
+      nocache: true,
+      googleBot: {
         index: true,
         follow: true,
-        nocache: true,
-        googleBot: {
-            index: true,
-            follow: true,
-            'max-image-preview': 'large',
-        },
+        'max-image-preview': 'large',
+      },
     },
     openGraph: {
       title: `${project.github_full_slug} - Project Details`,
@@ -56,5 +57,21 @@ export default async function ProjectPage({ params }: { params: { projectuuid: s
     return <div>Project not found</div>
   }
 
-  return <ClientProjectPage project={project} />
+  const [owner, repo] = project.github_full_slug?.split('/') || []
+  
+  // Fetch all data on server side
+  const [repoInfo, readme, contributors, languages] = await Promise.all([
+    getRepoInfo(owner, repo),
+    getRepoReadme(owner, repo),
+    getRepoContributors(owner, repo),
+    getRepoLanguages(owner, repo)
+  ])
+
+  return <ClientProjectPage 
+    project={project}
+    initialRepoInfo={repoInfo}
+    initialReadme={readme}
+    initialContributors={contributors}
+    initialLanguages={Object.keys(languages)}
+  />
 }
