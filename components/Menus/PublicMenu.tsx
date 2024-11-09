@@ -21,10 +21,12 @@ function PublicMenu() {
          }}>
          <Link href="/" className="flex items-center space-x-2">
             <Image width={100} height={40} src={contribhubLogo} alt="logo" className="w-24 sm:w-32 md:w-40" />
+            {/*
             <div className="hidden sm:flex ml-2 text-[#183718] text-xs font-medium px-3 py-1 rounded-md items-center nice-shadow space-x-1" style={{ background: 'linear-gradient(to top, #38c831, #51da4b)' }}>
                <GitBranch strokeWidth={3} size={12} className="text-[#183718] animate-pulse" />
                <span>#Hacktoberfest2024</span>
             </div>
+            */}
          </Link>
 
          <div className="flex items-center space-x-3 text-xs">
