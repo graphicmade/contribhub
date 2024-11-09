@@ -136,14 +136,14 @@ function ClientProjectPage({
               </div>
 
               <div className='col-span-1'>
-                {project.hacktoberfest && (
+                {/*project.hacktoberfest && (
                   <div className='bg-white rounded-lg nice-shadow p-6 mb-8' style={{ background: 'linear-gradient(to top, #38c831, #51da4b)' }}>
                   <div className="flex flex-col text-[#183718] justify-center items-center space-y-4">
                     <Image className='w-32' src={hacktoberfestLogo} alt='Hacktoberfest' />
                     <h1 className='text-lg font-bold mb-4 uppercase'>Participating project</h1>
                     </div>
                   </div>
-                )}
+                )*/}
                 <div className='bg-white rounded-lg nice-shadow p-6 mb-8'>
                   <h2 className='text-xl font-semibold mb-4'>Contributors</h2>
                   <div className='flex flex-wrap'>

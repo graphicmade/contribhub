@@ -380,6 +380,7 @@ function Projects({
                 </div>
 
                 {/* Hacktoberfest filter button */}
+                {/* Commenting out Hacktoberfest filter
                 <button
                   onClick={() => setIsHacktoberfest(!isHacktoberfest)}
                   className={`flex items-center border border-[#38c831] hover:bg-[#ecffea] hover:text-gray-600 rounded-full px-3 py-1.5 whitespace-nowrap w-auto font-medium text-sm ${
@@ -401,6 +402,7 @@ function Projects({
                   />
                   Hacktoberfest
                 </button>
+                */}
               </div>
             </div>
 
@@ -422,9 +424,11 @@ function Projects({
               {selectedLanguages.map((language) => (
                 <SelectedFilter key={language} id={language} toggle={() => toggleLanguage(language)} group={languagesOptions} />
               ))}
+              {/* Commenting out Hacktoberfest selected filter
               {isHacktoberfest && (
                 <SelectedFilter id='hacktoberfest' toggle={() => setIsHacktoberfest(false)} />
               )}
+              */}
 
               {/* Clear all */}
               {(selectedGroups.length > 0 || selectedTypes.length > 0 || starFilter || selectedLanguages.length > 0 || isHacktoberfest) && (
