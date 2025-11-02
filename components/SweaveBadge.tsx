@@ -14,7 +14,7 @@ function SweaveBadge() {
   }, [])
 
   return (
-    <Link href="https://x.com/swveio" target="_blank" rel="noopener noreferrer">
+    <Link href="https://swve.io" target="_blank" rel="noopener noreferrer">
       <div
         className={`fixed z-50 bottom-4 left-4 flex space-x-1 items-center bg-white/80 backdrop-blur-md rounded-full px-2 pr-2.5 py-1 nice-shadow hover:light-shadow-lg transition-all duration-500 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-full'
