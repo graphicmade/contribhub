@@ -2,7 +2,6 @@ import React from 'react'
 import Image from 'next/image'
 
 const sponsors = [
-  { name: 'Vercel', logo: '/vercel-logotype-dark.png', url: 'https://vercel.com' },
 ]
 
 function Sponsors() {

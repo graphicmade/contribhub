@@ -37,7 +37,6 @@ function HomePage() {
         <ContribHubCard />
       </div>
       <div className='flex flex-col w-full py-5'>
-        <h3 className='text-2xl font-bold justify-center mx-auto'>Sponsors</h3>
         <Sponsors />
       </div>
     </div>
