@@ -19,7 +19,7 @@ interface SelectedFilterProps {
   group?: Option[];
 }
 
-function SelectedFilter({id, toggle, group}: SelectedFilterProps): React.ReactElement {
+function SelectedFilter({id, toggle, group}: SelectedFilterProps): React.ReactElement<any> {
   let name = id.charAt(0).toUpperCase() + id.substring(1)
   if (group) {
     const option = group.find((option: Option) => option.id === id) || { id: '', value: '', label: '', icon: '' }

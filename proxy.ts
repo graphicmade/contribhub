@@ -15,7 +15,7 @@ export const config = {
   ],
 };
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
 
   // Update session
   await updateSession(request);

@@ -6,12 +6,11 @@ import { getRepoInfo, getRepoReadme, getRepoContributors, getRepoLanguages } fro
 export const dynamic = 'force-dynamic'
 
 type MetadataProps = {
-  params: { projectuuid: string }
+  params: Promise<{ projectuuid: string }>
 }
 
-export async function generateMetadata({
-  params,
-}: MetadataProps): Promise<Metadata> {
+export async function generateMetadata(props: MetadataProps): Promise<Metadata> {
+  const params = await props.params;
   const project = await getProjectByUuid(params.projectuuid)
 
   if (!project) {
@@ -50,7 +49,8 @@ export async function generateMetadata({
   }
 }
 
-export default async function ProjectPage({ params }: { params: { projectuuid: string } }) {
+export default async function ProjectPage(props: { params: Promise<{ projectuuid: string }> }) {
+  const params = await props.params;
   const project = await getProjectByUuid(params.projectuuid)
 
   if (!project) {
@@ -58,7 +58,7 @@ export default async function ProjectPage({ params }: { params: { projectuuid: s
   }
 
   const [owner, repo] = project.github_full_slug?.split('/') || []
-  
+
   // Fetch all data on server side
   const [repoInfo, readme, contributors, languages] = await Promise.all([
     getRepoInfo(owner, repo),

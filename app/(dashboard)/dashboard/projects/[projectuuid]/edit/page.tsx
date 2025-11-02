@@ -1,13 +1,14 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation'
 import { GitHubLogoIcon, ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
 import { updateProject, deleteProject, getProjectByUuid } from '@/services/projects/projects'
 import toast from 'react-hot-toast'
 import { contributionOptions, groupOptions } from '@/services/projects/utils'
 
-function EditProjectPage({ params }: { params: { projectuuid: string } }) {
+function EditProjectPage(props: { params: Promise<{ projectuuid: string }> }) {
+  const params = use(props.params);
   const router = useRouter()
   const [projectId, setProjectId] = useState<number | undefined>(undefined)
   const [projectUrl, setProjectUrl] = useState('')

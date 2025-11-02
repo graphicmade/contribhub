@@ -1,7 +1,6 @@
 import DynamicHomeAd from '@/components/Ads/DynamicHomeAd'
 import PublicMenu from '@/components/Menus/PublicMenu'
 import Projects from '@/components/Projects/Projects'
-import Sponsors from '@/components/Sponsors'
 import React from 'react'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
@@ -35,9 +34,6 @@ function HomePage() {
           ContribHub is an open source project. You can find the source code on <a href="https://github.com/graphicmade/contribhub" target="_blank" className="text-[#5472f9] hover:text-[#4062e8]">GitHub</a>.
         </p>
         <ContribHubCard />
-      </div>
-      <div className='flex flex-col w-full py-5'>
-        <Sponsors />
       </div>
     </div>
   )
