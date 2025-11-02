@@ -20,9 +20,9 @@ function Footer() {
           <Link href="/terms" className="block hover:underline">Terms of Service</Link>
           <Link href="/privacy" className="block hover:underline">Privacy Policy</Link>
           <Link href="/about" className="block hover:underline">About</Link>
-          <Link href="https://x.com/swveio" className="block hover:underline">Contact</Link>
+          <Link href="https://swve.io" className="block hover:underline">Contact</Link>
         </div>
-        <p className="text-xs opacity-70">&copy; {new Date().getFullYear()} ContribHub. All rights reserved.</p>
+        <p className="text-xs opacity-70">&copy; {new Date().getFullYear()} ContribHub</p>
       </div>
     </footer>
   );
