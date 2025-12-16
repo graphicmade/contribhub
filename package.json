@@ -28,7 +28,7 @@
     "clsx": "^2.1.1",
     "cmdk": "1.0.0",
     "date-fns": "^4.1.0",
-    "next": "16.0.7",
+    "next": "16.0.10",
     "nextjs-toploader": "^3.9.17",
     "react": "19.2.0",
     "react-day-picker": "8.10.1",
